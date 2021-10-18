@@ -1,5 +1,3 @@
-const theme = {
-  fontTitle: "'Nanum Gothic', sans-serif;",
-};
+const theme = {};
 
 export default theme;
