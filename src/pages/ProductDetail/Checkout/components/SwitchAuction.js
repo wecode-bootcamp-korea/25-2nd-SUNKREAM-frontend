@@ -1,29 +1,47 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const SwitchAuction = props => {
+const SwitchAuction = ({ history, changeColor, user_point }) => {
   const [isClickedInput, setClickedInput] = useState(false);
-  const [, setInputPrice] = useState(0);
   const [isPriceEnough, setIsPriceEnough] = useState(false);
+  const [auctionPrice, setAuctionPrice] = useState(0);
 
   const changeBorder = () => {
     setClickedInput(!isClickedInput);
   };
 
   const getPrice = e => {
-    setInputPrice(e.target.value);
-    if (e.target.value <= 30000) {
-      setIsPriceEnough({ isPriceEnough: true });
-    } else if (e.target.value > 30000) {
-      setIsPriceEnough({ isPriceEnough: false });
+    const { value } = e.target;
+    if (value <= 30000 || value % 1000 !== 0) {
+      setIsPriceEnough(true);
+    } else if (value > 30000 || value % 1000 === 0) {
+      setIsPriceEnough(false);
+      setAuctionPrice(value);
+      if (value > 210000) {
+        changeColor();
+      }
     }
   };
 
+  const handleInput = () => {
+    fetch(`http://10.58.1.125:8000/orders/bidding/1/${buy_id}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        price: auctionPrice,
+      }),
+    });
+    if (auctionPrice !== 0 && !isPriceEnough) {
+      window.alert('입찰이 완료되었습니다.');
+    }
+  };
+
+  const buy_id = 1;
   return (
     <>
-      <InstantBuyBox clicked={isClickedInput}>
+      <InstantBuyBox clicked={isClickedInput} priceEnough={isPriceEnough}>
         <AuctionBox>
-          <AuctionPrice redfont={isPriceEnough}>구매희망가</AuctionPrice>
+          <AuctionPrice redfont={isPriceEnough}>구매 희망가</AuctionPrice>
+
           <InputBox>
             <InstantBuyPrice
               placeholder="희망가 입력"
@@ -33,11 +51,16 @@ const SwitchAuction = props => {
             />
           </InputBox>
           <Won>원</Won>
+          <AlertBox>
+            <PriceAlert priceEnough={isPriceEnough}>
+              3만원 부터 천원단위로 입력하세요.
+            </PriceAlert>
+          </AlertBox>
         </AuctionBox>
       </InstantBuyBox>
       <FeeBox>
-        <FeeLeft>검수비</FeeLeft>
-        <FeeRight>-</FeeRight>
+        <UserPoint>포인트</UserPoint>
+        <FeeRight>{user_point}</FeeRight>
       </FeeBox>
       <FeeBoxBottom>
         <FeeLeft>배송비</FeeLeft>
@@ -46,20 +69,22 @@ const SwitchAuction = props => {
       <TotalBox>
         <TotalPriceBox>
           <TotalPriceTitle>총 결제 금액</TotalPriceTitle>
-          <TotalPrice>-</TotalPrice>
+          <TotalPrice>{auctionPrice} 원</TotalPrice>
         </TotalPriceBox>
       </TotalBox>
       <InstantBuyButtonBox>
-        <InstantBuyButton>구매 입찰</InstantBuyButton>
+        <InstantBuyButton onClick={handleInput}>구매 입찰</InstantBuyButton>
       </InstantBuyButtonBox>
     </>
   );
 };
 
 const InstantBuyBox = styled.div`
-  width: 100%;
+  flex: 1;
   border-bottom: ${props =>
     props.clicked ? '2px solid black' : '1px solid lightgray'};
+  border-bottom: ${props =>
+    props.priceEnough.isPriceEnough ? '1px solid #ef6253' : '1px solid black'};
 `;
 
 const AuctionBox = styled.dl`
@@ -68,14 +93,15 @@ const AuctionBox = styled.dl`
 `;
 
 const AuctionPrice = styled.dt`
-  font-weight: 700;
   min-width: 60px;
-  padding-top: 10px;
-  color: ${props => (props.redfont ? 'pink' : 'black')};
+  padding-top: 15px;
+  font-weight: 700;
+  color: ${props => (props.redfont ? '#ef6253' : 'black')};
 `;
 
 const InputBox = styled.dd`
   display: flex;
+  flex: 1;
   align-items: center;
 `;
 
@@ -116,6 +142,12 @@ const FeeBoxBottom = styled.div`
 const FeeLeft = styled.p`
   padding-top: 10px;
   color: lightgray;
+  font-size: 13px;
+`;
+const UserPoint = styled.p`
+  padding-top: 10px;
+  font-size: 13px;
+  color: red;
 `;
 const FeeRight = styled.span`
   padding-top: 10px;
@@ -138,8 +170,9 @@ const TotalPriceTitle = styled.p`
 `;
 
 const TotalPrice = styled.span`
-  color: red;
   font-size: 20px;
+  font-weight: 500;
+  color: #ef6253;
 `;
 
 const InstantBuyButtonBox = styled.div`
@@ -149,12 +182,23 @@ const InstantBuyButtonBox = styled.div`
 `;
 
 const InstantBuyButton = styled.button`
-  width: 90%;
-  height: 50px;
+  width: 95%;
+  height: 55px;
   border-radius: 10px;
   margin-bottom: 30px;
   background-color: black;
   color: white;
 `;
 
+const AlertBox = styled.div`
+  position: absolute;
+  padding-left: 420px;
+  padding-top: 20px;
+`;
+
+const PriceAlert = styled.p`
+  font-size: 15px;
+  color: #ef6253;
+  visibility: ${props => (props.priceEnough ? '' : 'hidden')};
+`;
 export default SwitchAuction;
