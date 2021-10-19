@@ -1,17 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const SwtichMenu = props => {
+const SwtichMenu = ({ buy_price, user_point, history }) => {
+  const submitOrder = () => {
+    window.alert('주문이 완료되었습니다.');
+    history.push('/');
+  };
   return (
     <>
       <InstantBuyBox>
         <InstantBuyTitle>즉시 구매가</InstantBuyTitle>
-        <InstantBuyPrice>339,000</InstantBuyPrice>
+        <InstantBuyPrice>{buy_price}</InstantBuyPrice>
         <Won>원</Won>
       </InstantBuyBox>
       <FeeBox>
-        <FeeLeft>검수비</FeeLeft>
-        <FeeRight>무료</FeeRight>
+        <UserPoint>포인트</UserPoint>
+        <FeeRight>{user_point}</FeeRight>
       </FeeBox>
       <FeeBoxBottom>
         <FeeLeft>배송비</FeeLeft>
@@ -20,11 +24,13 @@ const SwtichMenu = props => {
       <TotalBox>
         <TotalPriceBox>
           <TotalPriceTitle>총 결제 금액</TotalPriceTitle>
-          <TotalPrice>339,000원</TotalPrice>
+          <TotalPrice>{buy_price} 원</TotalPrice>
         </TotalPriceBox>
       </TotalBox>
       <InstantBuyButtonBox>
-        <InstantBuyButton>즉시 구매 계속</InstantBuyButton>
+        <InstantBuyButton onClick={submitOrder}>
+          즉시 구매 계속
+        </InstantBuyButton>
       </InstantBuyButtonBox>
     </>
   );
@@ -43,11 +49,11 @@ const InstantBuyTitle = styled.p`
 `;
 
 const InstantBuyPrice = styled.p`
-  //padding-right: 10px;
   padding-top: 50px;
   padding-bottom: 15px;
   margin-left: 450px;
-  font-size: 25px;
+  font-size: 23px;
+  font-weight: 700;
 `;
 const Won = styled.p`
   padding-right: 10px;
@@ -73,8 +79,15 @@ const FeeBoxBottom = styled.div`
 `;
 
 const FeeLeft = styled.p`
-  color: lightgray;
   padding-top: 10px;
+  font-size: 13px;
+  color: lightgray;
+`;
+
+const UserPoint = styled.p`
+  padding-top: 10px;
+  font-size: 13px;
+  color: red;
 `;
 const FeeRight = styled.span`
   padding-top: 10px;
@@ -97,8 +110,8 @@ const TotalPriceTitle = styled.p`
 `;
 
 const TotalPrice = styled.span`
-  color: red;
   font-size: 20px;
+  color: red;
 `;
 
 const InstantBuyButtonBox = styled.div`
@@ -108,8 +121,8 @@ const InstantBuyButtonBox = styled.div`
 `;
 
 const InstantBuyButton = styled.button`
-  width: 90%;
-  height: 50px;
+  width: 95%;
+  height: 55px;
   border-radius: 10px;
   margin-bottom: 30px;
   background-color: black;

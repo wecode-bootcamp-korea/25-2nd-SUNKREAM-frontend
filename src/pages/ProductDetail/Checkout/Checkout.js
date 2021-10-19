@@ -1,14 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SwtichMenu from './components/SwtichMenu';
 import SwitchAuction from './components/SwitchAuction';
 
 const Checkout = props => {
   const [isClicked, setClicked] = useState(false);
+  const [productData, setProductData] = useState({});
+  const [noSellPrice, setNoSellPrice] = useState(false);
+  const [noBuyPrice, setNoBuyPrice] = useState(false);
 
   const changeColor = () => {
-    setClicked(!isClicked);
+    if (productData.bidding_id !== null) setClicked(!isClicked);
   };
+
+  const dataLoad = () => {
+    fetch(`http://10.58.1.125:8000/orders/bidding/1/${sell_id}`)
+      .then(res => res.json())
+      .then(res => {
+        setProductData(res.data);
+      });
+  };
+
+  useEffect(() => {
+    dataLoad();
+    if (productData.bidding_id === null) setClicked(true);
+    if (productData.sell_price === null) {
+      setNoSellPrice(true);
+      if (productData.buy_price === null) {
+        setNoBuyPrice(true);
+      }
+    }
+    if (productData.buy_price === null) {
+      setNoBuyPrice(true);
+      if (productData.sell_price === null) {
+        setNoSellPrice(true);
+      }
+    }
+  }, [productData.sell_price, productData.buy_price, productData.bidding_id]);
+
+  const {
+    product_name,
+    product_brand,
+    product_model_number,
+    size,
+    sell_price,
+    buy_price,
+    user_point,
+    product_image_url,
+    bidding_id,
+  } = productData;
+
+  const sell_id = 2;
 
   return (
     <CheckoutContainer>
@@ -17,24 +59,39 @@ const Checkout = props => {
           <ProductBox>
             <Product>
               <ImgBox>
-                <ProductImg src="/images/sangchu.jpg" alt="Product Image" />
+                <ProductImg
+                  src={productData && product_image_url}
+                  alt="Product Image"
+                />
               </ImgBox>
               <ProductText>
-                <SerialNumber>DH1348-001</SerialNumber>
-                <ProductName>Nike x Patta Air Max 1 Monarch</ProductName>
-                <KoreanName>나이키 x 파타 에어맥스 1 모나크</KoreanName>
-                <SerialNumber>230</SerialNumber>
+                <SerialNumber>
+                  {productData && product_model_number}
+                </SerialNumber>
+
+                <KoreanName>
+                  {productData && product_brand} {productData && product_name}
+                </KoreanName>
+                <SerialNumber>{productData && size}</SerialNumber>
               </ProductText>
             </Product>
           </ProductBox>
           <PriceListBox>
             <PriceList>
-              <GrayedTag>즉시 구매가</GrayedTag>
-              <PriceP>210,000 원</PriceP>
+              <GrayedTag>즉시 {}가</GrayedTag>
+              {noBuyPrice ? (
+                <PriceP>- 원</PriceP>
+              ) : (
+                <PriceP>{productData && buy_price} 원</PriceP>
+              )}
             </PriceList>
             <PriceListBorder>
               <GrayedTag>즉시 판매가</GrayedTag>
-              <PriceP>201,000 원</PriceP>
+              {noSellPrice ? (
+                <PriceP>- 원</PriceP>
+              ) : (
+                <PriceP>{productData && sell_price} 원</PriceP>
+              )}
             </PriceListBorder>
           </PriceListBox>
           <TabSelect>
@@ -45,13 +102,31 @@ const Checkout = props => {
                 </AtagAuction>
               </SelectListLeft>
               <SelectList>
-                <AtagBuy clicker={isClicked} onClick={changeColor}>
+                <AtagBuy
+                  bidding_id={productData && bidding_id}
+                  clicker={isClicked}
+                  onClick={changeColor}
+                >
                   즉시 구매
                 </AtagBuy>
               </SelectList>
             </Tab>
           </TabSelect>
-          {!isClicked ? <SwtichMenu /> : <SwitchAuction />}
+          {!isClicked ? (
+            <SwtichMenu
+              buy_price={productData && buy_price}
+              sell_price={productData && sell_price}
+              user_point={productData && user_point}
+              bidding_id={productData && bidding_id}
+              clicker={isClicked}
+            />
+          ) : (
+            <SwitchAuction
+              user_point={productData && user_point}
+              clicker={isClicked}
+              changeColor={changeColor}
+            />
+          )}
         </CheckoutBox>
       </CheckoutContent>
     </CheckoutContainer>
@@ -69,13 +144,14 @@ const CheckoutContent = styled.div`
 `;
 
 const CheckoutBox = styled.div`
-  background-color: white;
   padding: 0 20px;
+  box-shadow: 5px 5px 10px lightgray;
+  background-color: white;
 `;
 
 const ProductBox = styled.div`
+  flex: 1;
   padding: 10px 0;
-  //margin-right: 100px
 `;
 
 const Product = styled.div`
@@ -86,10 +162,10 @@ const Product = styled.div`
 
 const ImgBox = styled.div`
   position: relative;
-  padding-top: 0;
-  margin-bottom: 60px;
   width: 75px;
   height: 75px;
+  padding-top: 0;
+  margin-bottom: 60px;
   border-radius: 10px;
 `;
 const ProductImg = styled.img`
@@ -107,58 +183,58 @@ const ProductText = styled.div`
 
 const SerialNumber = styled.strong`
   display: block;
-  font-size: 15px;
-  font-weight: bolder;
   padding-top: 10px;
+  font-weight: bolder;
+  font-size: 15px;
 `;
 
-const ProductName = styled.p`
-  font-weight: bold;
-  font-size: 13px;
-  margin-top: 5px;
-`;
+// const ProductName = styled.p`
+//   margin-top: 5px;
+//   font-weight: bold;
+//   font-size: 13px;
+// `;
 
 const KoreanName = styled.p`
-  color: grey;
+  margin-top: 5px;
   font-weight: lighter;
   font-size: 13px;
-  margin-top: 5px;
+  color: grey;
 `;
 
 const PriceListBox = styled.ul`
   display: flex;
   justify-content: space-between;
+  flex: 1;
   padding-top: 20px;
   padding-bottom: 20px;
   border-top: 1px solid lightgray;
-  -webkit-box-align: center;
-  flex: 1;
 `;
 
 const PriceList = styled.li`
   flex: 1;
-  text-align: center;
   margin-left: 115px;
   padding-top: 10px;
   padding-bottom: 10px;
+  text-align: center;
 `;
 
 const PriceListBorder = styled.li`
   flex: 1;
-  text-align: center;
   margin-left: 115px;
   padding-left: 110px;
   padding-right: 115px;
   padding-top: 10px;
   padding-bottom: 10px;
+  text-align: center;
   border-left: 1px solid lightgray;
 `;
 
 const GrayedTag = styled.p`
   justify-content: space-between;
-  color: gray;
   opacity: 40%;
+  font-weight: 500;
   font-size: 15px;
+  color: gray;
 `;
 
 const PriceP = styled.p`
@@ -171,10 +247,10 @@ const TabSelect = styled.div`
 `;
 
 const Tab = styled.ul`
+  display: flex;
   border: 1px solid lightgray;
   border-radius: 40px;
   background-color: lightgray;
-  display: flex;
 `;
 
 const SelectListLeft = styled.li`
@@ -186,12 +262,13 @@ const SelectList = styled.li`
 
 const AtagAuction = styled.a`
   display: block;
+  flex: 1;
   padding-top: 10px;
   margin: 2px;
   height: 40px;
-  text-align: center;
   border-radius: 40px;
   font-weight: 800;
+  text-align: center;
   background-color: ${props => (props.clicker ? '#ef6253' : 'lightgray')};
   color: ${props => (props.clicker ? 'white' : 'black')};
 `;
@@ -201,11 +278,12 @@ const AtagBuy = styled.a`
   padding-top: 10px;
   margin: 2px;
   height: 40px;
-  text-align: center;
   border-radius: 40px;
   font-weight: 800;
+  text-align: center;
   background-color: ${props => (props.clicker ? 'lightgray' : '#ef6253')};
   color: ${props => (props.clicker ? 'black' : 'white')};
+  pointer-events: ${props => (props.bidding_id === null ? 'none' : null)};
 `;
 
 export default Checkout;
