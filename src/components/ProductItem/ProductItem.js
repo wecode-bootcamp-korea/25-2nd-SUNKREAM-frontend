@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+
 import styled from 'styled-components';
 
-export default function ProductItem(props) {
+export default function ProductItem({ brand, name, price }) {
   const [toggle, setToggle] = useState(false);
 
   return (
@@ -18,13 +19,13 @@ export default function ProductItem(props) {
       </ItemImg>
       <ItemInfo>
         <Brand>
-          <p>Nike</p>
+          <p>{brand}</p>
         </Brand>
         <ItemName>
-          <p>Nike Dunk Low Retro Championship Goldenrod</p>
+          <p>{name}</p>
         </ItemName>
         <Price>
-          <div>100,000원</div>
+          <div>{price.toLocaleString('ko-KR')}</div>
           <p>즉시 구매가</p>
         </Price>
       </ItemInfo>

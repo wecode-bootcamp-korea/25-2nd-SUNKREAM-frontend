@@ -15,11 +15,13 @@ class Routes extends React.Component {
       <Router>
         <Nav />
         <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
-          <Route exact path="/" component={Main} />
-          <Route exact path="/product-detail" component={ProductDetail} />
-          <Route exact path="/product-list" component={ProductList} />
+          <div className="header_fixed" style={{ marginTop: '100px' }}>
+            <Route exact path="/" component={Main} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/signup" component={Signup} />
+            <Route exact path="/product-detail" component={ProductDetail} />
+            <Route exact path="/product-list" component={ProductList} />
+          </div>
         </Switch>
         <Footer />
       </Router>
