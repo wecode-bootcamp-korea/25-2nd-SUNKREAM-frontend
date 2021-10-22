@@ -97,7 +97,7 @@ const ButtonBox = styled.div`
 
 const LoginButton = styled.button`
   margin-bottom: 10px;
-  width: 100%;
+  width: 400px;
   height: 50px;
   opacity: 20%;
   box-shadow: 0px 0px 0px transparent;
