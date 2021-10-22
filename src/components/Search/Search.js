@@ -9,44 +9,55 @@ const Search = ({ cancelToggle }) => {
   const [items, setItems] = useState([]);
   const [recentSearch, setRecentSearch] = useState([]);
 
-  const handleChange = e => {
-    searchAsType(e.target.value);
-  };
-
   useEffect(() => {
-    const recentSearch = localStorage.getItem('total');
+    const recentSearch = localStorage.getItem('recentSearchKeywords');
     if (recentSearch) {
       setRecentSearch(recentSearch.split(','));
     }
   }, [items]);
 
-  const pushRecentSearch = e => {
-    searchAsType(e.target.value);
-    localStorage.setItem('history', e.target.value);
-    if (e.key === 'Enter' && e.target.value !== '') {
-      recentSearch.push(localStorage.history);
+  const handleChange = e => {
+    updateSearchResult(e.target.value);
+  };
 
-      const realFilter = recentSearch.filter(item => {
-        return item !== e.target.value;
-      });
-      setRecentSearch(realFilter.concat(localStorage.history));
-      const totalhistory = realFilter.concat(localStorage.history);
+  const pushRecentSearch = e => {
+    const { value } = e.target;
+    const { key } = e;
+    if (key === 'Enter' && value !== '') {
+      const isAlreadySearched = recentSearch.includes(value);
+      const recentSearchKeywords =
+        localStorage.getItem('recentSearchKeywords') ?? '';
+
+      if (!isAlreadySearched) {
+        setRecentSearch(prev => [...prev, value]);
+        localStorage.setItem(
+          'recentSearchKeywords',
+          recentSearchKeywords.concat(',' + value)
+        );
+      } else {
+        const replacedSearch = recentSearch
+          .filter(keyword => keyword !== value)
+          .concat(value);
+        setRecentSearch(replacedSearch);
+        localStorage.setItem('recentSearchKeywords', replacedSearch.join(','));
+      }
+
       e.target.value = '';
-      localStorage.setItem('total', totalhistory);
     }
   };
-  const searchAsType = keyword => {
+
+  const updateSearchResult = keyword => {
     fetch(`${BASE_URL}/products?search=${keyword}`)
       .then(res => res.json())
       .then(data => {
         setItems(data.products_list);
       })
-      .catch(e => setItems([], [items]));
+      .catch(() => setItems([]));
   };
 
   const resetRecent = () => {
     localStorage.clear();
-    setRecentSearch([], [recentSearch]);
+    setRecentSearch([]);
   };
 
   return (
@@ -75,7 +86,7 @@ const Search = ({ cancelToggle }) => {
             </ResetRecentIcon>
             <SearchContentWrapper>
               {recentSearch.map(item => (
-                <RecentSearchContent key={item.id}>{item}</RecentSearchContent>
+                <RecentSearchContent key={item}>{item}</RecentSearchContent>
               ))}
             </SearchContentWrapper>
           </ResetRecentWrapper>

@@ -106,7 +106,6 @@ const Header = styled.div`
   position: fixed;
   width: 100%;
   top: 0;
-  box-sizing: border-box;
   min-height: 100px;
   margin: 0px;
   padding: 0px;
