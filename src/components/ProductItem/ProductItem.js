@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-export default function ProductItem({ brand, name, price }) {
+export default function ProductItem({ brand, name, price, thumbnail_url }) {
   const [toggle, setToggle] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ export default function ProductItem({ brand, name, price }) {
           />
         </Save>
         <ItemImg>
-          <img alt="itemImg" src="" />
+          <img alt="itemImg" src={thumbnail_url} />
         </ItemImg>
       </ItemImgInner>
       <ItemInfo>
@@ -28,7 +28,7 @@ export default function ProductItem({ brand, name, price }) {
           <p>{name}</p>
         </ItemName>
         <Price>
-          <div>{price && price.toLocaleString('ko-KR')}</div>
+          <div>{price === null ? '-' : price.toLocaleString('ko-KR')}</div>
           <p>즉시 구매가</p>
         </Price>
       </ItemInfo>
@@ -56,6 +56,9 @@ const ItemImgInner = styled.div`
 `;
 
 const ItemImg = styled.div`
+  width: 282px;
+  height: 282px;
+
   img {
     width: 100%;
   }

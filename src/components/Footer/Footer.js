@@ -74,23 +74,29 @@ class Footer extends Component {
             <BusinessInfo>
               <InfoList>
                 <BusinessTitle>슈크림 주식회사 대표</BusinessTitle>
-                <BusinessDesc>
-                  김현진,박산성,박치훈,송영록,양가현,이선호,하상영
-                </BusinessDesc>
+                <BusinessExplain>
+                  <Git userName="71summernight">김현진</Git>,
+                  <Git userName="p-acid">박산성</Git>,
+                  <Git userName="chihunmanse">박치훈</Git>,
+                  <Git userName="crescentfull">송영록</Git>,
+                  <Git userName="chrisYang256">양가현</Git>,
+                  <Git userName="sunhoh">이선호</Git>,
+                  <Git userName="sangyouh">하상영</Git>
+                </BusinessExplain>
                 <BusinessTitle>사업자등록번호:</BusinessTitle>
-                <BusinessDesc>580-88-01618 </BusinessDesc>
+                <BusinessExplain>580-88-01618 </BusinessExplain>
                 <BusinessTitle>통신판매업:</BusinessTitle>
-                <BusinessDesc>선릉 위워크타워2호점</BusinessDesc>
+                <BusinessExplain>선릉 위워크타워2호점</BusinessExplain>
               </InfoList>
               <InfoList>
                 <BusinessTitle>사업장소재지:</BusinessTitle>
-                <BusinessDesc>
+                <BusinessExplain>
                   슈크림팀 완전짱짱시 짱짱구 짱짱동 117,99층
-                </BusinessDesc>
+                </BusinessExplain>
                 <BusinessTitle>개인정보관리책임자:</BusinessTitle>
-                <BusinessDesc>슈크림</BusinessDesc>
+                <BusinessExplain>슈크림</BusinessExplain>
                 <BusinessTitle>호스팅 서비스:</BusinessTitle>
-                <BusinessDesc>네이버 클라우드(주)</BusinessDesc>
+                <BusinessExplain>네이버 클라우드(주)</BusinessExplain>
               </InfoList>
             </BusinessInfo>
           </InnerMid>
@@ -111,11 +117,12 @@ class Footer extends Component {
 export default Footer;
 
 const Wrapper = styled.div`
-  padding: 50px 40px;
-  border-top: 1px solid #ebebeb;
   bottom: 0;
   min-height: 100px;
+  min-width: 1000px;
   z-index: 1000;
+  padding: 50px 40px;
+  border-top: 1px solid #ebebeb;
   background-color: #fff;
   color: #222;
 `;
@@ -126,8 +133,6 @@ const Inner = styled.div`
 
 const InnerTop = styled.div`
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-pack: justify;
   justify-content: space-between;
   padding-bottom: 56px;
   border-bottom: 1px solid #ebebeb;
@@ -156,14 +161,12 @@ const MenuItem = styled.li`
 `;
 
 const InnerTopRight = styled.div`
-  box-sizing: border-box;
   width: 270px;
+  box-sizing: border-box;
 `;
 
 const ServiceTitle = styled.strong`
   display: inline-flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   font-size: 16px;
   letter-spacing: -0.16px;
@@ -209,18 +212,17 @@ const ServiceBtnWrapper = styled.div`
 `;
 
 const ServiceBtn = styled.a`
-  border-radius: 0;
-  color: #fafafa;
-  background-color: #222;
-  padding: 0 14px;
-  height: 34px;
-  line-height: 32px;
   display: inline-block;
-  cursor: pointer;
+  height: 34px;
+  padding: 0 14px;
+  border-radius: 0;
   vertical-align: middle;
   text-align: center;
   text-decoration: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  color: #fafafa;
+  background-color: #222;
+  line-height: 32px;
+  cursor: pointer;
 `;
 
 const InnerMid = styled.div`
@@ -277,7 +279,7 @@ const BusinessTitle = styled.dt`
   margin-inline-end: 5px;
 `;
 
-const BusinessDesc = styled.dd`
+const BusinessExplain = styled.dd`
   float: left;
   line-height: 20px;
   font-size: 13px;
@@ -289,7 +291,6 @@ const BusinessDesc = styled.dd`
 const InnerBottom = styled.div`
   padding-top: 12px;
   display: flex;
-  -webkit-box-align: end;
   align-items: flex-end;
 `;
 
@@ -305,4 +306,11 @@ const Copyright = styled.p`
   flex-shrink: 0;
   font-size: 12px;
   color: rgba(34, 34, 34, 0.3);
+`;
+const Git = styled.a.attrs(props => ({
+  href: `https://github.com/${props.userName}  
+`,
+}))`
+  text-decoration: none;
+  color: rgba(34, 34, 34, 0.5);
 `;

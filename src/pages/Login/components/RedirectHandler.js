@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { KAOKAO_LOGIN_URL } from '../../../config';
 import styled from 'styled-components';
+import { BASE_URL } from '../../../config';
 
 let accessCode = window.location.search.split('=')[1];
 let tokenAddress = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.REACT_APP_KAKAO_RESTAPI_KEY}&redirect_uri=http://localhost:3000/oauth/callback/kakao&code=${accessCode}`;
