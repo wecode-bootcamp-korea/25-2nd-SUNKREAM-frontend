@@ -7,7 +7,7 @@ export default function ProductItem({ brand, name, price }) {
 
   return (
     <Item>
-      <ItemImg>
+      <ItemImgInner>
         <Save>
           <SaveIcon
             bookmark={toggle}
@@ -16,7 +16,10 @@ export default function ProductItem({ brand, name, price }) {
             }}
           />
         </Save>
-      </ItemImg>
+        <ItemImg>
+          <img alt="itemImg" src="" />
+        </ItemImg>
+      </ItemImgInner>
       <ItemInfo>
         <Brand>
           <p>{brand}</p>
@@ -34,23 +37,27 @@ export default function ProductItem({ brand, name, price }) {
 }
 
 const Item = styled.div`
-  width: 306px;
   margin: 20px 0;
   padding: 0 12px;
+  background: white;
+`;
+
+const ItemImgInner = styled.div`
+  position: relative;
+  border-radius: 14px;
+  cursor: pointer;
+  background-color: #f6eeed;
+
+  &:hover {
+    & i {
+      opacity: 1;
+    }
+  }
 `;
 
 const ItemImg = styled.div`
-  position: relative;
-  width: 282px;
-  height: 282px;
-  background-color: #f6eeed;
-  border-radius: 14px;
-  cursor: pointer;
-
-  &:hover {
-    & div {
-      opacity: 1;
-    }
+  img {
+    width: 100%;
   }
 `;
 
@@ -60,13 +67,14 @@ const Save = styled.div`
   right: 0;
   margin: 15px;
   font-size: 23px;
-  opacity: 0;
-  transition: all 0.2s ease;
 `;
 
 const SaveIcon = styled.i.attrs(props => ({
   className: props.bookmark ? `fas fa-bookmark` : `far fa-bookmark`,
-}))``;
+}))`
+  transition: all 0.2s ease;
+  opacity: ${props => (props.bookmark ? '1' : '0')};
+`;
 
 const ItemInfo = styled.div`
   padding: 15px 0 0;
