@@ -20,7 +20,7 @@ export default class SimpleSlider extends Component {
           {images.map(item => {
             return (
               <ImageContainer key={item.url}>
-                <Image src={item.url} />
+                <Image alt="광고배너" src={item.url} />
               </ImageContainer>
             );
           })}
@@ -44,9 +44,6 @@ const StyledSlider = styled(Slider)`
     line-height: 1;
     opacity: 0.75;
     color: gray;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   .slick-prev {
     left: 25px;
@@ -142,9 +139,6 @@ const StyledSlider = styled(Slider)`
 
     opacity: 0.25;
     color: black;
-
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   .slick-dots li.slick-active button:before {
     opacity: 0.75;

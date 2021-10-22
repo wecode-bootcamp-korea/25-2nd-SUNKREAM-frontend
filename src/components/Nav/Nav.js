@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-
 import Search from '../../components/Search/Search';
 
 class Nav extends Component {
+  componentDidMount() {
+    this.setState({
+      login_token: localStorage.token,
+    });
+  }
+
   state = {
     isToggle: false,
   };
 
   toggle = e => {
+    const { isToggle } = this.state;
     this.setState({
-      isToggle: !this.state.isToggle,
+      isToggle: !isToggle,
     });
   };
 
@@ -20,35 +27,64 @@ class Nav extends Component {
     });
   };
 
+  goToLogin = () => {
+    const { history } = this.props;
+    history.push('/login');
+  };
+
+  goToMain = () => {
+    const { history } = this.props;
+
+    history.push('/');
+  };
+
+  goToProduct = () => {
+    const { history } = this.props;
+    history.push('/product-list');
+  };
   render() {
+    const { isToggle, login_token } = this.state;
     return (
       <>
         <Header>
           <NavTopWrapper>
             <NavTopUl>
-              {TOPLINK.map(item => {
-                return (
-                  <NavtopItem key={item.name}>
-                    <TopLink>{item.name}</TopLink>
-                  </NavtopItem>
-                );
-              })}
+              <NavtopItem>
+                <TopLink>고객센터</TopLink>
+              </NavtopItem>
+              <NavtopItem>
+                <TopLink>장바구니</TopLink>
+              </NavtopItem>
+              <NavtopItem>
+                <TopLink>마이페이지</TopLink>
+              </NavtopItem>
+              <NavtopItem>
+                <TopLink onClick={this.goToLogin}>
+                  {!login_token ? '로그인' : '로그아웃'}
+                </TopLink>
+              </NavtopItem>
             </NavTopUl>
           </NavTopWrapper>
 
           <HeaderMain>
             <Logo>
-              <LogoLink>SHOE-KREAM</LogoLink>
+              <LogoLink onClick={this.goToMain}>SHOE-KREAM</LogoLink>
             </Logo>
             <HeaderMainRightWrapper>
               <HeaderMainRightUl>
-                {STYLE.map(item => {
-                  return (
-                    <HeaderMainRightItem key={item.name}>
-                      <HeaderMainRightLink>{item.name}</HeaderMainRightLink>
-                    </HeaderMainRightItem>
-                  );
-                })}
+                <HeaderMainRightItem>
+                  <HeaderMainRightLink>STYLE</HeaderMainRightLink>
+                </HeaderMainRightItem>
+
+                <HeaderMainRightItem>
+                  <HeaderMainRightLink onClick={this.goToProduct}>
+                    SHOP
+                  </HeaderMainRightLink>
+                </HeaderMainRightItem>
+
+                <HeaderMainRightItem>
+                  <HeaderMainRightLink>ABOUT</HeaderMainRightLink>
+                </HeaderMainRightItem>
               </HeaderMainRightUl>
               <SearchBox>
                 <SearchBoxLink onClick={this.toggle}>
@@ -58,18 +94,18 @@ class Nav extends Component {
             </HeaderMainRightWrapper>
           </HeaderMain>
         </Header>
-        {this.state.isToggle && <Search cancelToggle={this.cancelToggle} />}
+        {isToggle && <Search cancelToggle={this.cancelToggle} />}
       </>
     );
   }
 }
 
-export default Nav;
+export default withRouter(Nav);
 
 const Header = styled.div`
   position: fixed;
-  top: 0;
   width: 100%;
+  top: 0;
   box-sizing: border-box;
   min-height: 100px;
   margin: 0px;
@@ -116,8 +152,8 @@ const HeaderMain = styled.div`
   padding: 0 40px;
   height: 68px;
   min-width: 320px;
-  -webkit-box-align: center;
   align-items: center;
+  box-shadow: 0 1px 0 0 rgb(0 0 0 / 10%);
 `;
 
 const Logo = styled.h1`
@@ -164,7 +200,6 @@ const HeaderMainRightLink = styled.a`
   position: relative;
   font-size: 15px;
   letter-spacing: -0.15px;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
 `;
 
@@ -182,12 +217,3 @@ const SearchBoxLink = styled.a`
   border: none !important;
   cursor: pointer;
 `;
-
-const TOPLINK = [
-  { name: '고객센터' },
-  { name: '관심상품' },
-  { name: '마이페이지' },
-  { name: '로그인' },
-];
-
-const STYLE = [{ name: 'STYLE' }, { name: 'SHOP' }, { name: 'ABOUT' }];

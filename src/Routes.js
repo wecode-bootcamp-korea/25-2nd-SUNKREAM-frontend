@@ -10,6 +10,7 @@ import ProductDetail from './pages/ProductDetail/ProductDetail';
 import ProductList from './pages/ProductList/ProductList';
 import Checkout from './pages/ProductDetail/Checkout/Checkout';
 import RedirectHandler from './pages/Login/components/RedirectHandler';
+import SearchItem from './components/Search/SearchItem';
 
 class Routes extends React.Component {
   render() {
@@ -29,6 +30,7 @@ class Routes extends React.Component {
               path="/oauth/callback/kakao"
               component={RedirectHandler}
             />
+            <Route exact path="/search" component={SearchItem} />
           </div>
         </Switch>
         <Footer />
