@@ -176,7 +176,6 @@ const ServiceTitle = styled.strong`
 const ServicePhone = styled.a`
   margin-left: 4px;
   letter-spacing: normal;
-  box-sizing: border-box;
 `;
 
 const ServiceTime = styled.div`
@@ -215,7 +214,6 @@ const ServiceBtn = styled.a`
   display: inline-block;
   height: 34px;
   padding: 0 14px;
-  border-radius: 0;
   vertical-align: middle;
   text-align: center;
   text-decoration: none;
@@ -228,7 +226,6 @@ const ServiceBtn = styled.a`
 const InnerMid = styled.div`
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 `;
 
 const MidWrapper = styled.div`
