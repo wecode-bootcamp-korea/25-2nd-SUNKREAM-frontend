@@ -8,6 +8,8 @@ import Nav from './components/Nav/Nav';
 import Footer from './components/Footer/Footer';
 import ProductDetail from './pages/ProductDetail/ProductDetail';
 import ProductList from './pages/ProductList/ProductList';
+import Checkout from './pages/ProductDetail/Checkout/Checkout';
+import RedirectHandler from './pages/Login/components/RedirectHandler';
 
 class Routes extends React.Component {
   render() {
@@ -21,6 +23,12 @@ class Routes extends React.Component {
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/product-detail" component={ProductDetail} />
             <Route exact path="/product-list" component={ProductList} />
+            <Route exact path="/product-list/checkout" component={Checkout} />
+            <Route
+              exapt
+              path="/oauth/callback/kakao"
+              component={RedirectHandler}
+            />
           </div>
         </Switch>
         <Footer />
