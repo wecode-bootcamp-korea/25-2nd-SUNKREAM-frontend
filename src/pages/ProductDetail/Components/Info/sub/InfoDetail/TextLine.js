@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const TextLine = props => {
-  const { name } = props;
+const TextLine = ({ item }) => {
+  const { title, content } = item;
+
   return (
     <Wrapper>
-      <Text title>{name}</Text>
-      {name === '모델번호' ? (
-        <Text modelName>[임시 데이터]</Text>
+      <Text title>{title}</Text>
+      {title === '모델번호' ? (
+        <Text modelName>{content}</Text>
       ) : (
-        <Text>[임시 데이터]</Text>
+        <Text>{content && `${content.toLocaleString('ko-KR')}원`}</Text>
       )}
     </Wrapper>
   );

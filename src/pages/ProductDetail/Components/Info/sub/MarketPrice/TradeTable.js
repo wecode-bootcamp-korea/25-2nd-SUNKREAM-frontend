@@ -1,24 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const TradeTable = props => {
+const TradeTable = ({ currentPick, tableData }) => {
+  const { tradeType } = currentPick;
+
   return (
     <Wrapper>
       <TradeTableBox>
         <thead>
           <tr header>
-            {TABLE_HEADER.map((name, idx) => (
+            {TABLE_HEADER[tradeType].map((name, idx) => (
               <TableHeader key={idx}>{name}</TableHeader>
             ))}
           </tr>
         </thead>
-        {TABLE_DATA.map(data => (
-          <tr key={data.id}>
-            <TableData>{data.size}</TableData>
-            <TableData>{data.price}</TableData>
-            <TableData>{data.date}</TableData>
-          </tr>
-        ))}
+        {tableData[tradeType].map(data => {
+          const { id, size, price, created_at, count } = data;
+          return (
+            <tr key={id}>
+              <TableData>{size}</TableData>
+              <TableData>
+                {price && `${price.toLocaleString('kr-KO')}원`}
+              </TableData>
+              <TableData>{created_at || count}</TableData>
+            </tr>
+          );
+        })}
       </TradeTableBox>
     </Wrapper>
   );
@@ -57,37 +64,8 @@ const TableData = styled.td`
   }
 `;
 
-const TABLE_HEADER = ['사이즈', '거래가', '거래일'];
-
-const TABLE_DATA = [
-  {
-    id: '1',
-    size: '280',
-    price: '891,000원',
-    date: '21/10/20',
-  },
-  {
-    id: '2',
-    size: '280',
-    price: '891,000원',
-    date: '21/10/20',
-  },
-  {
-    id: '3',
-    size: '280',
-    price: '891,000원',
-    date: '21/10/20',
-  },
-  {
-    id: '4',
-    size: '280',
-    price: '891,000원',
-    date: '21/10/20',
-  },
-  {
-    id: '5',
-    size: '280',
-    price: '891,000원',
-    date: '21/10/20',
-  },
-];
+const TABLE_HEADER = {
+  orderList: ['사이즈', '거래가', '거래일'],
+  sellList: ['사이즈', '판매 희망가', '수량'],
+  buyList: ['사이즈', '구매 희망가', '수량'],
+};

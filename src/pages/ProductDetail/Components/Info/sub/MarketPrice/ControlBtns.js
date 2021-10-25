@@ -1,14 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ControlBtns = ({ list }) => {
+const ControlBtns = ({ list, currentLine, currentPick, setCurrentPick }) => {
+  const handleCurrentPick = ({ target }) => {
+    const { id } = target;
+
+    setCurrentPick({
+      ...currentPick,
+      [currentLine]: id,
+    });
+  };
+
   return (
     <ControlBtnsBox>
-      {list.map(item => (
-        <Button key={item.id} id={item.id}>
-          {item.name}
-        </Button>
-      ))}
+      {list.map(item => {
+        const { id, name } = item;
+        const isCurrentPick = currentPick[currentLine] === id;
+        return (
+          <Button
+            onClick={handleCurrentPick}
+            isCurrentPick={isCurrentPick}
+            key={id}
+            id={id}
+          >
+            {name}
+          </Button>
+        );
+      })}
     </ControlBtnsBox>
   );
 };
@@ -21,7 +39,7 @@ const ControlBtnsBox = styled.div`
   background-color: ${({ theme }) => theme.lightgray};
 `;
 
-const Button = styled.span`
+const Button = styled.p`
   display: inline-block;
   flex: 1;
   margin: 3px;
@@ -29,5 +47,7 @@ const Button = styled.span`
   font-size: 13px;
   text-align: center;
   border-radius: 8px;
-  background-color: white;
+  background-color: ${({ isCurrentPick, theme }) =>
+    isCurrentPick ? 'white' : theme.lightgray};
+  cursor: pointer;
 `;

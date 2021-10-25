@@ -1,12 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const InterestBtn = () => {
+const InterestBtn = ({ wishData, handleWishBtn }) => {
+  const { wish_count, check_my_wish } = wishData;
+
   return (
-    <Button>
-      <i className="far fa-bookmark" />
+    <Button onClick={handleWishBtn}>
+      <i className={`${check_my_wish ? 'fas' : 'far'} fa-bookmark`} />
       <Text>관심상품</Text>
-      <Text number>3.8만</Text>
+      <Text number>{wish_count && wish_count.toLocaleString('ko-KR')}</Text>
     </Button>
   );
 };
@@ -26,6 +28,7 @@ const Button = styled.button`
   border: 1px solid #ebebeb;
   border-radius: 10px;
   background-color: white;
+  cursor: pointer;
 `;
 
 const Text = styled.span`

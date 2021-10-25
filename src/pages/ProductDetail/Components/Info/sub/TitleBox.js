@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-const TitleBox = () => {
+const TitleBox = ({ title }) => {
+  const { brand, name, kr_name } = title;
+
   return (
     <div>
-      <Link to="">Nike</Link>
-      <Title>Nike Dunk Low Retro Championship Goldenrod</Title>
-      <Title korean>나이키 덩크 로우 레트로 챔피언쉽 골든로드</Title>
+      <Link to="/product-list">{brand}</Link>
+      <Title>{name}</Title>
+      <Title korean>{kr_name}</Title>
     </div>
   );
 };

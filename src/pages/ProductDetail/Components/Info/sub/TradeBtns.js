@@ -1,18 +1,25 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-const TradeBtns = () => {
+const TradeBtns = ({ price }) => {
+  const { buy_price, sell_price } = price;
+
   return (
     <Wrapper>
       <Button buy>
-        <Text title>구매</Text>
-        <Text>163,000</Text>
-        <Text>원</Text>
+        <Link to="">
+          <Text title>구매</Text>
+          <Text>{buy_price && buy_price.toLocaleString('ko-KR')}</Text>
+          <Text>원</Text>
+        </Link>
       </Button>
       <Button>
-        <Text title>판매</Text>
-        <Text>235,000</Text>
-        <Text>원</Text>
+        <Link to="">
+          <Text title>판매</Text>
+          <Text>{sell_price && sell_price.toLocaleString('ko-KR')}</Text>
+          <Text>원</Text>
+        </Link>
       </Button>
     </Wrapper>
   );
@@ -25,20 +32,20 @@ const Wrapper = styled.div`
   margin-top: 17px;
 `;
 
-const Button = styled.a`
+const Button = styled.span`
   display: flex;
-  flex: 1;
-  align-items: center;
   text-align: center;
-  width: 55px;
+  flex: 1;
   padding: 20px 0;
   margin-left: ${props => !props.buy && '10px'};
   border-radius: 10px;
   background-color: ${props => (props.buy ? '#ef6253' : '#41b979')};
   color: white;
+  cursor: pointer;
 `;
 
 const Text = styled.span`
+  display: inline-block;
   width: ${props => props.title && '55px'};
   font-size: ${props => (props.title ? '18px' : '15px')};
   font-weight: bold;

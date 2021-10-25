@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Size = () => {
+const Size = ({ currentSize, handleModal }) => {
   return (
     <Box>
       <Text title>사이즈</Text>
-      <SizeBtn>
-        <Text>모든 사이즈</Text>
+      <SizeBtn onClick={handleModal}>
+        <Text id="sizeTitleBox">{currentSize}</Text>
         <Icon>
-          <i className="fas fa-caret-square-down" />
+          <i id="sizeTitleBox" className="fas fa-caret-square-down" />
         </Icon>
       </SizeBtn>
     </Box>
