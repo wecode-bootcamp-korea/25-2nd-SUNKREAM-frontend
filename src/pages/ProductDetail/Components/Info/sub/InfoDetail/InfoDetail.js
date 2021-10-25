@@ -2,13 +2,19 @@ import React from 'react';
 import styled from 'styled-components';
 import TextLine from './TextLine';
 
-const InfoDetail = () => {
+const InfoDetail = ({ info }) => {
+  const { model_number, release_price } = info;
+  const INFO_LIST = [
+    { title: '모델번호', content: model_number },
+    { title: '발매가', content: release_price },
+  ];
+
   return (
     <DetailBox>
       <Header>상품 정보</Header>
       <Wrapper>
-        {INFO_LIST.map((name, idx) => (
-          <TextLine key={idx} name={name} />
+        {INFO_LIST.map((item, idx) => (
+          <TextLine key={idx} item={item} />
         ))}
       </Wrapper>
     </DetailBox>
@@ -32,5 +38,3 @@ const Wrapper = styled.div`
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
 `;
-
-const INFO_LIST = ['모델번호', '발매가'];

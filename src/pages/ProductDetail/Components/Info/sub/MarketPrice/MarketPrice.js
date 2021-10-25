@@ -1,22 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import ControlBtns from './ControlBtns';
 import Chart from './Chart';
 import TradeTable from './TradeTable';
+import SizeDropdown from './SizeDropdown';
 
-const MarketPrice = props => {
+const MarketPrice = ({
+  sizeList,
+  currentSize,
+  handleModal,
+  sizePrice,
+  handleButton,
+  marketData,
+}) => {
+  const [currentPick, setCurrentPick] = useState({
+    term: '1m',
+    tradeType: 'orderList',
+  });
+
+  const { graphData, tableData } = marketData;
+
   return (
     <MarketPriceBox>
       <Wrapper>
         <Title>시세</Title>
-        <SizeBtn>
-          모든 사이즈 <i className="fas fa-chevron-down" />
+        <SizeBtn id="sizePrice" onClick={handleModal}>
+          {currentSize} <i className="fas fa-chevron-down" />
+          {sizePrice && (
+            <SizeDropdown
+              sizeList={sizeList}
+              currentSize={currentSize}
+              handleButton={handleButton}
+            />
+          )}
         </SizeBtn>
       </Wrapper>
-      <ControlBtns list={TERM_BTN_LIST} />
-      <Chart />
-      <ControlBtns list={TRADE_BTN_LIST} />
-      <TradeTable />
+      <ControlBtns
+        currentLine="term"
+        currentPick={currentPick}
+        list={TERM_BTN_LIST}
+        setCurrentPick={setCurrentPick}
+      />
+      <Chart graphData={graphData} />
+      <ControlBtns
+        currentLine="tradeType"
+        currentPick={currentPick}
+        list={TRADE_BTN_LIST}
+        setCurrentPick={setCurrentPick}
+      />
+      <TradeTable tableData={tableData} currentPick={currentPick} />
     </MarketPriceBox>
   );
 };
@@ -39,6 +71,7 @@ const Title = styled.h3`
 `;
 
 const SizeBtn = styled.span`
+  position: relative;
   font-size: 13px;
   color: ${props => props.theme.gray};
   cursor: pointer;
@@ -65,15 +98,15 @@ const TERM_BTN_LIST = [
 
 const TRADE_BTN_LIST = [
   {
-    id: '1',
+    id: 'orderList',
     name: '체결 거래',
   },
   {
-    id: '2',
+    id: 'sellList',
     name: '판매 입찰',
   },
   {
-    id: '3',
+    id: 'buyList',
     name: '구매 입찰',
   },
 ];

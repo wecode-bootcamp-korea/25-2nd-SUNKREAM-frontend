@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Price = props => {
+const Price = ({ price }) => {
   return (
     <Box>
       <Text title>최근 거래가</Text>
       <Wrapper>
-        <Text>167,000</Text>
+        <Text>{price && price.toLocaleString('ko-KR')}</Text>
         <Text>원</Text>
         <Rate>4,000원 (+2.5%)</Rate>
       </Wrapper>
