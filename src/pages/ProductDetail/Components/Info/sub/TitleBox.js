@@ -7,7 +7,9 @@ const TitleBox = ({ title }) => {
 
   return (
     <div>
-      <Link to="/product-list">{brand}</Link>
+      <Title>
+        <Link to="/product-list">{brand}나이키</Link>
+      </Title>
       <Title>{name}</Title>
       <Title korean>{kr_name}</Title>
     </div>

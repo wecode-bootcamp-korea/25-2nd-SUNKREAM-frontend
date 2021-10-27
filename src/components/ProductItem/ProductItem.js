@@ -28,7 +28,7 @@ export default function ProductItem({ brand, name, price, thumbnail_url }) {
           <p>{name}</p>
         </ItemName>
         <Price>
-          <div>{price === null ? '-' : price.toLocaleString('ko-KR')}</div>
+          <div>{price === null ? '-' : price?.toLocaleString('ko-KR')}</div>
           <p>즉시 구매가</p>
         </Price>
       </ItemInfo>

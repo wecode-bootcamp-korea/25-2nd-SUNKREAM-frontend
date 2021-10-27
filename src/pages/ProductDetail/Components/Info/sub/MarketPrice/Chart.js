@@ -3,11 +3,27 @@ import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
 
 const Chart = ({ graphData }) => {
-  const DATA = {
+  const sourceData = getGraphData(graphData);
+
+  return (
+    <Wrapper>
+      <Line data={sourceData.data} options={sourceData.options} height="100%" />
+    </Wrapper>
+  );
+};
+
+export default Chart;
+
+const Wrapper = styled.div`
+  padding: 20px 0 15px;
+`;
+
+const getGraphData = data => {
+  const result = {
     data: {
       datasets: [
         {
-          data: graphData,
+          data: data,
           backgroundColor: 'transparent',
           borderColor: '#eb472a',
           borderWidth: 1,
@@ -45,16 +61,5 @@ const Chart = ({ graphData }) => {
       },
     },
   };
-
-  return (
-    <Wrapper>
-      <Line data={DATA.data} options={DATA.options} width="inherit" />
-    </Wrapper>
-  );
+  return result;
 };
-
-export default Chart;
-
-const Wrapper = styled.div`
-  padding: 20px 0 15px;
-`;

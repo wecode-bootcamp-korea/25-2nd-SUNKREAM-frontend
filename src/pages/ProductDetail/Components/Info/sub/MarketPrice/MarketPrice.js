@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ControlBtns from './ControlBtns';
 import Chart from './Chart';
@@ -12,12 +12,9 @@ const MarketPrice = ({
   sizePrice,
   handleButton,
   marketData,
+  currentPick,
+  setCurrentPick,
 }) => {
-  const [currentPick, setCurrentPick] = useState({
-    term: '1m',
-    tradeType: 'orderList',
-  });
-
   const { graphData, tableData } = marketData;
 
   return (
@@ -35,13 +32,17 @@ const MarketPrice = ({
           )}
         </SizeBtn>
       </Wrapper>
-      <ControlBtns
-        currentLine="term"
-        currentPick={currentPick}
-        list={TERM_BTN_LIST}
-        setCurrentPick={setCurrentPick}
-      />
-      <Chart graphData={graphData} />
+      {graphData.length > 0 && (
+        <>
+          <ControlBtns
+            currentLine="term"
+            currentPick={currentPick}
+            list={TERM_BTN_LIST}
+            setCurrentPick={setCurrentPick}
+          />
+          <Chart graphData={graphData} />
+        </>
+      )}
       <ControlBtns
         currentLine="tradeType"
         currentPick={currentPick}

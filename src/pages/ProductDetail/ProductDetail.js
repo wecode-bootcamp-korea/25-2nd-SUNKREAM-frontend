@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Info from './Components/Info/Info';
 import Silde from './Components/Slide/Silde';
-import Recommend from './Components/Recommend/Recommend';
 import Modal from './Components/Info/sub/Modal';
+import { URL } from '../../config';
 
-const ProductDetail = () => {
+const ProductDetail = ({ match }) => {
+  const { params } = match;
+  const { path } = params;
+
   const [productInfo, setProductInfo] = useState({});
 
   const [marketData, setMarketData] = useState({
@@ -21,15 +24,21 @@ const ProductDetail = () => {
 
   const [toggleModal, setToggleModal] = useState({
     sizeTitleBox: false,
-    interest: false,
     sizePrice: false,
   });
 
   const [currentSize, setCurrentSize] = useState('모든 사이즈');
 
+  const [currentPick, setCurrentPick] = useState({
+    term: '1y',
+    tradeType: 'orderList',
+  });
+
   const { sizeTitleBox, sizePrice } = toggleModal;
 
-  const isModalOn = sizeTitleBox && 'on';
+  const { term } = currentPick;
+
+  const modalOn = sizeTitleBox && 'on';
 
   const handleModal = ({ target }) => {
     const { id } = target;
@@ -50,22 +59,36 @@ const ProductDetail = () => {
       ...wishData,
       check_my_wish: !wishData.check_my_wish,
     });
-  };
 
-  useEffect(() => {
-    fetch('http://localhost:3000/data/ProductDetail/productInfo.json', {
-      method: 'GET',
+    fetch(`${URL.wishList}/wishflag/${path}`, {
+      method: 'POST',
+      body: JSON.stringify({}),
     })
       .then(res => res.json())
       .then(data => {
         setProductInfo(data);
       });
-  }, []);
+  };
 
   useEffect(() => {
-    fetch('http://localhost:3000/data/ProductDetail/marketPrice.json', {
+    fetch(`${URL.product}/${path}`, {
       method: 'GET',
     })
+      .then(res => res.json())
+      .then(data => {
+        setProductInfo(data.product_detail[0]);
+      });
+  }, [path]);
+
+  useEffect(() => {
+    fetch(
+      `${URL.chart}/${path}?size=${
+        currentSize === '모든 사이즈' ? '' : currentSize
+      }&period=${term}`,
+      {
+        method: 'GET',
+      }
+    )
       .then(res => res.json())
       .then(data => {
         const {
@@ -86,23 +109,42 @@ const ProductDetail = () => {
           };
         });
       });
-  }, []);
+  }, [path, currentSize, term]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/data/ProductDetail/wishData.json')
+    setCurrentPick(prevState => {
+      return { ...prevState, term: '1y', tradeType: 'orderList' };
+    });
+  }, [currentSize]);
+
+  useEffect(() => {
+    fetch(`${URL.chart}/${path}`, {
+      method: 'GET',
+    })
       .then(res => res.json())
       .then(data => {
-        setWishData(data);
+        setMarketData(data);
       });
-  }, []);
+  }, [path]);
+
+  useEffect(() => {
+    fetch(`${URL.wishList}/wishflag?product_id=${path}`)
+      .then(res => res.json())
+      .then(data => {
+        const { results } = data;
+        setWishData(prevState => {
+          return { ...prevState, ...results };
+        });
+      });
+  }, [path]);
 
   return (
     <>
-      <Light isModalOn={isModalOn}>
+      <Light modalOn={modalOn}>
         <ProductDetailBox>
           <Top>
             <SlideBox>
-              <Silde />
+              <Silde list={productInfo.image_list} />
             </SlideBox>
             <DetailBox>
               <Info
@@ -113,14 +155,13 @@ const ProductDetail = () => {
                 handleWishBtn={handleWishBtn}
                 handleModal={handleModal}
                 currentSize={currentSize}
+                currentPick={currentPick}
+                setCurrentPick={setCurrentPick}
                 handleButton={handleButton}
                 marketData={marketData}
               />
             </DetailBox>
           </Top>
-          <Bottom>
-            <Recommend />
-          </Bottom>
         </ProductDetailBox>
       </Light>
       {sizeTitleBox && (
@@ -139,7 +180,7 @@ export default ProductDetail;
 
 const Light = styled.div`
   background-color: white;
-  filter: brightness(${({ isModalOn }) => (isModalOn === 'on' ? '0.5' : '1')});
+  filter: brightness(${({ modalOn }) => (modalOn === 'on' ? '0.5' : '1')});
 `;
 
 const ProductDetailBox = styled.div`
@@ -165,17 +206,13 @@ const DetailBox = styled.div`
   max-width: 600px;
 `;
 
-const Bottom = styled.div`
-  padding: 0 30px;
-`;
-
 const EXAMPLE = [
-  '모든 사이즈',
-  '220',
-  '230',
-  '240',
-  '250',
-  '260',
-  '270',
-  '280',
+  { id: 1, size: '모든 사이즈' },
+  { id: 2, size: '230' },
+  { id: 3, size: '240' },
+  { id: 4, size: '250' },
+  { id: 5, size: '260' },
+  { id: 6, size: '270' },
+  { id: 7, size: '280' },
+  { id: 8, size: '290' },
 ];
