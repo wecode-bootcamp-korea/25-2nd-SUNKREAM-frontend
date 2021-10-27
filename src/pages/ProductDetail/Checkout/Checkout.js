@@ -188,12 +188,6 @@ const SerialNumber = styled.strong`
   font-size: 15px;
 `;
 
-// const ProductName = styled.p`
-//   margin-top: 5px;
-//   font-weight: bold;
-//   font-size: 13px;
-// `;
-
 const KoreanName = styled.p`
   margin-top: 5px;
   font-weight: lighter;
