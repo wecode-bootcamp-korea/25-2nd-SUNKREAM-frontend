@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
+import LogoutModal from '../LogoutModal/LogoutModal';
+
 import Search from '../../components/Search/Search';
 
 class Nav extends Component {
-  componentDidMount() {
-    this.setState({
-      login_token: localStorage.token,
-    });
-  }
-
   state = {
     isToggle: false,
+    isModalOn: false,
+  };
+
+  clearToken = () => {
+    window.localStorage.removeItem('token');
+    this.setState({ isModalOn: false });
+  };
+
+  modalToggle = () => {
+    const { isModalOn } = this.state;
+    this.setState({ isModalOn: !isModalOn });
   };
 
   toggle = e => {
@@ -34,7 +41,6 @@ class Nav extends Component {
 
   goToMain = () => {
     const { history } = this.props;
-
     history.push('/');
   };
 
@@ -43,7 +49,8 @@ class Nav extends Component {
     history.push('/product-list');
   };
   render() {
-    const { isToggle, login_token } = this.state;
+    const isTokenAvailable = localStorage.token || sessionStorage.token;
+    const { isToggle, isModalOn } = this.state;
     return (
       <>
         <Header>
@@ -59,14 +66,28 @@ class Nav extends Component {
                 <TopLink>마이페이지</TopLink>
               </NavtopItem>
               <NavtopItem>
-                <TopLink onClick={this.goToLogin}>
-                  {!login_token ? '로그인' : '로그아웃'}
-                </TopLink>
+                <LoginLink
+                  isTokenAvailable={isTokenAvailable}
+                  onClick={this.goToLogin}
+                >
+                  로그인
+                </LoginLink>
+                <LogoutLink
+                  isTokenAvailable={isTokenAvailable}
+                  onClick={this.modalToggle}
+                >
+                  로그아웃
+                </LogoutLink>
               </NavtopItem>
             </NavTopUl>
           </NavTopWrapper>
-
           <HeaderMain>
+            {isModalOn ? (
+              <LogoutModal
+                clearToken={this.clearToken}
+                modalToggle={this.modalToggle}
+              />
+            ) : null}
             <Logo>
               <LogoLink onClick={this.goToMain}>SHOE-KREAM</LogoLink>
             </Logo>
@@ -144,6 +165,24 @@ const TopLink = styled.span`
   letter-spacing: -0.06px;
   color: rgba(34, 34, 34, 0.8);
   cursor: pointer;
+`;
+
+const LoginLink = styled.span`
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: -0.06px;
+  color: rgba(34, 34, 34, 0.8);
+  cursor: pointer;
+  display: ${props => (props.isTokenAvailable ? 'none' : '')};
+`;
+
+const LogoutLink = styled.span`
+  align-items: center;
+  font-size: 12px;
+  letter-spacing: -0.06px;
+  color: rgba(34, 34, 34, 0.8);
+  cursor: pointer;
+  display: ${props => (props.isTokenAvailable ? '' : 'none')};
 `;
 
 const HeaderMain = styled.div`

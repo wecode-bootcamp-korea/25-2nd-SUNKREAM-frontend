@@ -3,7 +3,8 @@ import { KAOKAO_LOGIN_URL } from '../../../config';
 import styled from 'styled-components';
 
 let accessCode = window.location.search.split('=')[1];
-let tokenAddress = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.REACT_APP_KAKAO_RESTAPI_KEY}&redirect_uri=http://localhost:3000/oauth/callback/kakao&code=${accessCode}`;
+let tokenAddress = `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${process.env.REACT_APP_KAKAO_RESTAPI_KEY}&
+redirect_uri=http://localhost:3000/oauth/callback/kakao&code=${accessCode}`;
 
 const RedirectHandler = ({ history, location }) => {
   useEffect(() => {
@@ -28,23 +29,17 @@ const RedirectHandler = ({ history, location }) => {
   }, [history, location]);
 
   return (
-    <div>
-      <LoginImage src="/images/sangchu1.jpg" alt="로그인 대기 이미지" />
-      <Alarm>로그인중....</Alarm>
-    </div>
+    <Alarm>
+      <LoadingGif src="/images/loading.gif" alt="loading icon gif" />
+      <LoadingGif src="/images/loading.gif" alt="loading icon gif" />
+      <LoadingGif src="/images/loading.gif" alt="loading icon gif" />
+      <LoadingGif src="/images/loading.gif" alt="loading icon gif" />
+      <LoadingGif src="/images/loading.gif" alt="loading icon gif" />
+    </Alarm>
   );
 };
 
-const Alarm = styled.h1`
-  font-size: 150px;
-  padding-left: 30%;
-  padding-top: 20%;
-`;
+const Alarm = styled.div``;
 
-const LoginImage = styled.img`
-  width: 400px;
-  height: auto;
-  align-items: center;
-`;
-
+const LoadingGif = styled.img``;
 export default RedirectHandler;
