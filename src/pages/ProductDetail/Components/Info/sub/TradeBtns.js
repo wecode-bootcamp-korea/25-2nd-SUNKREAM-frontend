@@ -8,16 +8,16 @@ const TradeBtns = ({ price }) => {
   return (
     <Wrapper>
       <Button buy>
-        <Link to="">
+        <Link to="/buy/select-size">
           <Text title>구매</Text>
-          <Text>{buy_price && buy_price.toLocaleString('ko-KR')}</Text>
+          <Text>{buy_price?.toLocaleString('ko-KR')}</Text>
           <Text>원</Text>
         </Link>
       </Button>
       <Button>
-        <Link to="">
+        <Link to="/sell/select-size">
           <Text title>판매</Text>
-          <Text>{sell_price && sell_price.toLocaleString('ko-KR')}</Text>
+          <Text>{sell_price?.toLocaleString('ko-KR')}</Text>
           <Text>원</Text>
         </Link>
       </Button>

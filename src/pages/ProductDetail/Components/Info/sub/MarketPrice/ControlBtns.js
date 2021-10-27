@@ -5,9 +5,8 @@ const ControlBtns = ({ list, currentLine, currentPick, setCurrentPick }) => {
   const handleCurrentPick = ({ target }) => {
     const { id } = target;
 
-    setCurrentPick({
-      ...currentPick,
-      [currentLine]: id,
+    setCurrentPick(prev => {
+      return { ...prev, [currentLine]: id };
     });
   };
 

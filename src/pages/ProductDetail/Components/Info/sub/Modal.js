@@ -19,10 +19,11 @@ const Modal = ({ children, sizeList, currentSize, handleButton }) => {
     <ModalBox>
       <Title>{children}</Title>
       <SizeWrapper>
-        {sizeList.map((size, idx) => {
+        {sizeList.map(item => {
+          const { size } = item;
           const isCurrentSize = size === currentSize ? 'right' : '';
           return (
-            <SizeItem id={size} key={idx} isCurrentSize={isCurrentSize}>
+            <SizeItem id={size} key={size} isCurrentSize={isCurrentSize}>
               <Text id={size} onClick={handleButton} size>
                 {size}
               </Text>

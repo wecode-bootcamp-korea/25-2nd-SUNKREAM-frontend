@@ -7,25 +7,32 @@ const TradeTable = ({ currentPick, tableData }) => {
   return (
     <Wrapper>
       <TradeTableBox>
-        <thead>
-          <tr header>
-            {TABLE_HEADER[tradeType].map((name, idx) => (
-              <TableHeader key={idx}>{name}</TableHeader>
-            ))}
-          </tr>
-        </thead>
-        {tableData[tradeType].map(data => {
-          const { id, size, price, created_at, count } = data;
-          return (
-            <tr key={id}>
-              <TableData>{size}</TableData>
-              <TableData>
-                {price && `${price.toLocaleString('kr-KO')}원`}
-              </TableData>
-              <TableData>{created_at || count}</TableData>
-            </tr>
-          );
-        })}
+        {tableData[tradeType].length < 1 ? (
+          <EmptyList>
+            <i class="fas fa-chart-line" />
+            <Text>체결된 거래가 없습니다.</Text>
+          </EmptyList>
+        ) : (
+          <>
+            <thead>
+              <tr header>
+                {TABLE_HEADER[tradeType].map((name, idx) => (
+                  <TableHeader key={idx}>{name}</TableHeader>
+                ))}
+              </tr>
+            </thead>
+            {tableData[tradeType].map(data => {
+              const { id, size, price, created_at, count } = data;
+              return (
+                <tr key={id}>
+                  <TableData>{size}</TableData>
+                  <TableData>{`${price?.toLocaleString('kr-KO')}원`}</TableData>
+                  <TableData>{created_at || count}</TableData>
+                </tr>
+              );
+            })}
+          </>
+        )}
       </TradeTableBox>
     </Wrapper>
   );
@@ -62,6 +69,22 @@ const TableData = styled.td`
   &:nth-child(1) {
     text-align: left;
   }
+`;
+
+const EmptyList = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 42px 0 22px;
+  width: 100%;
+  font-size: 40px;
+  color: ${({ theme }) => theme.gray};
+`;
+
+const Text = styled.p`
+  margin: 10px 0 0;
+  font-size: 13px;
 `;
 
 const TABLE_HEADER = {

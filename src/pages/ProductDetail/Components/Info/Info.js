@@ -20,12 +20,12 @@ const Info = ({
   marketData,
   wishData,
   handleWishBtn,
+  currentPick,
+  setCurrentPick,
 }) => {
   const {
-    brand,
     name,
-    kr_name,
-    current_price,
+    recent_price,
     buy_price,
     sell_price,
     model_number,
@@ -34,20 +34,22 @@ const Info = ({
 
   return (
     <InfoBox>
-      <TitleBox title={{ brand, name, kr_name }} />
+      <TitleBox title={{ name }} />
       <Size currentSize={currentSize} handleModal={handleModal} />
-      <Price price={current_price} />
+      <Price price={recent_price} />
       <TradeBtns price={{ buy_price, sell_price }} />
       <InterestBtn wishData={wishData} handleWishBtn={handleWishBtn} />
       <InfoDetail info={{ model_number, release_price }} />
       <DeliveryInfo />
       <AdBanner
-        src="images/ProductDetail/advertising_banner.png"
+        src="/images/ProductDetail/advertising_banner.png"
         alt="banner.img"
       />
       <MarketPrice
         sizeList={sizeList}
         currentSize={currentSize}
+        currentPick={currentPick}
+        setCurrentPick={setCurrentPick}
         handleModal={handleModal}
         sizePrice={sizePrice}
         handleButton={handleButton}

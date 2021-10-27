@@ -4,16 +4,18 @@ import styled from 'styled-components';
 const SizeDropdown = ({ sizeList, currentSize, handleButton }) => {
   return (
     <Wrapper>
-      {sizeList.map((size, idx) => {
+      {sizeList.map(item => {
+        const { id, size } = item;
         const isCurrentSize = size === currentSize ? 'right' : '';
         return (
           <Button
             id={size}
-            key={idx}
+            key={id}
             onClick={handleButton}
             isCurrentSize={isCurrentSize}
           >
-            {size} {size === currentSize && <i className="fas fa-check" />}
+            {size}
+            {size === currentSize && <i className="fas fa-check" />}
           </Button>
         );
       })}
