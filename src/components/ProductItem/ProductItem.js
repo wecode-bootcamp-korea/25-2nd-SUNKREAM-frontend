@@ -1,40 +1,37 @@
 import React, { useState } from 'react';
-
+import { withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-export default function ProductItem({ brand, name, price, thumbnail_url }) {
+function ProductItem({ id, history, thumbnail_url, name, brand, price }) {
+  // const history = useHistory();
   const [toggle, setToggle] = useState(false);
 
   return (
-    <Item>
-      <ItemImgInner>
-        <Save>
-          <SaveIcon
-            bookmark={toggle}
-            onClick={() => {
-              setToggle(bookmark => !bookmark);
-            }}
-          />
-        </Save>
-        <ItemImg>
-          <img alt="itemImg" src={thumbnail_url} />
-        </ItemImg>
-      </ItemImgInner>
-      <ItemInfo>
-        <Brand>
-          <p>{brand}</p>
-        </Brand>
-        <ItemName>
-          <p>{name}</p>
-        </ItemName>
-        <Price>
-          <div>{!price ? '-' : price.toLocaleString('ko-KR')}</div>
-          <p>즉시 구매가</p>
-        </Price>
-      </ItemInfo>
-    </Item>
+    <Link to={`/product-detail/${id}`}>
+      <Item>
+        <ItemImgInner>
+          <ItemImg>
+            <img alt="itemImg" src={thumbnail_url} />
+          </ItemImg>
+        </ItemImgInner>
+        <ItemInfo>
+          <Brand>
+            <p>{brand}</p>
+          </Brand>
+          <ItemName>
+            <p>{name}</p>
+          </ItemName>
+          <Price>
+            <div>{price === null ? '-' : price?.toLocaleString('ko-KR')}</div>
+            <p>즉시 구매가</p>
+          </Price>
+        </ItemInfo>
+      </Item>
+    </Link>
   );
 }
+export default withRouter(ProductItem);
 
 const Item = styled.div`
   margin: 20px 0;
@@ -47,6 +44,7 @@ const ItemImgInner = styled.div`
   border-radius: 14px;
   cursor: pointer;
   background-color: #f6eeed;
+  overflow: hidden;
 
   &:hover {
     & i {
@@ -61,23 +59,9 @@ const ItemImg = styled.div`
   }
 `;
 
-const Save = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 15px;
-  font-size: 23px;
-`;
-
-const SaveIcon = styled.i.attrs(props => ({
-  className: props.bookmark ? `fas fa-bookmark` : `far fa-bookmark`,
-}))`
-  transition: all 0.2s ease;
-  opacity: ${props => (props.bookmark ? '1' : '0')};
-`;
-
 const ItemInfo = styled.div`
   padding: 15px 0 0;
+  color: black;
 `;
 
 const Brand = styled.div`
