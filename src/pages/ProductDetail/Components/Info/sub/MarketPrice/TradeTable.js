@@ -7,7 +7,7 @@ const TradeTable = ({ currentPick, tableData }) => {
   return (
     <Wrapper>
       <TradeTableBox>
-        {tableData[tradeType].length < 1 ? (
+        {tableData[tradeType] && tableData[tradeType].length < 1 ? (
           <EmptyList>
             <i class="fas fa-chart-line" />
             <Text>체결된 거래가 없습니다.</Text>
@@ -16,21 +16,25 @@ const TradeTable = ({ currentPick, tableData }) => {
           <>
             <thead>
               <tr header>
-                {TABLE_HEADER[tradeType].map((name, idx) => (
-                  <TableHeader key={idx}>{name}</TableHeader>
-                ))}
+                {TABLE_HEADER[tradeType] &&
+                  TABLE_HEADER[tradeType].map((name, idx) => (
+                    <TableHeader key={idx}>{name}</TableHeader>
+                  ))}
               </tr>
             </thead>
-            {tableData[tradeType].map(data => {
-              const { id, size, price, created_at, count } = data;
-              return (
-                <tr key={id}>
-                  <TableData>{size}</TableData>
-                  <TableData>{`${price?.toLocaleString('kr-KO')}원`}</TableData>
-                  <TableData>{created_at || count}</TableData>
-                </tr>
-              );
-            })}
+            {tableData[tradeType] &&
+              tableData[tradeType].map(data => {
+                const { id, size, price, created_at, count } = data;
+                return (
+                  <tr key={id}>
+                    <TableData>{size}</TableData>
+                    <TableData>{`${price?.toLocaleString(
+                      'kr-KO'
+                    )}원`}</TableData>
+                    <TableData>{created_at || count}</TableData>
+                  </tr>
+                );
+              })}
           </>
         )}
       </TradeTableBox>

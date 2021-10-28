@@ -2,11 +2,22 @@ import React, { useState } from 'react';
 
 import styled from 'styled-components';
 
-export default function ProductItem({ brand, name, price, thumbnail_url }) {
+export default function ProductItem({
+  brand,
+  name,
+  price,
+  thumbnail_url,
+  product_id,
+}) {
   const [toggle, setToggle] = useState(false);
 
+  const goToMyPage = () => {
+    const { history } = this.props;
+    history.push(`/product-detail/${product_id}`);
+  };
+
   return (
-    <Item>
+    <Item onClick={goToMyPage}>
       <ItemImgInner>
         <Save>
           <SaveIcon
