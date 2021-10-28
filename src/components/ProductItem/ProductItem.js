@@ -28,7 +28,7 @@ export default function ProductItem({ brand, name, price, thumbnail_url }) {
           <p>{name}</p>
         </ItemName>
         <Price>
-          <div>{price === null ? '-' : price?.toLocaleString('ko-KR')}</div>
+          <div>{!price ? '-' : price.toLocaleString('ko-KR')}</div>
           <p>즉시 구매가</p>
         </Price>
       </ItemInfo>
@@ -56,9 +56,6 @@ const ItemImgInner = styled.div`
 `;
 
 const ItemImg = styled.div`
-  width: 282px;
-  height: 282px;
-
   img {
     width: 100%;
   }
