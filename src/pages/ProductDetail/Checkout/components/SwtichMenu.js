@@ -1,21 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
-const SwtichMenu = ({ buy_price, user_point, history }) => {
+const SwtichMenu = ({
+  buy_price,
+  user_point,
+  history,
+  bidding_id,
+  match,
+  bidding_price,
+  sell_price,
+}) => {
+  const [isSellAuction, setIsSellAuction] = useState(true);
+
   const submitOrder = () => {
-    window.alert('주문이 완료되었습니다.');
-    history.push('/');
+    fetch(`http://10.58.5.224:8000/orders/${bidding_id}`, {
+      method: 'POST',
+      headers: {
+        Authorization: localStorage.token,
+      },
+    })
+      .then(res => res.json())
+      .then(json => {
+        if (
+          match.params.id === 'buy' &&
+          json.message === 'INSUFFICIENT_POINT'
+        ) {
+          window.alert('포인트가 부족합니다');
+        } else if (
+          match.params.id === 'sell' &&
+          json.message === 'INSUFFICIENT_POINT'
+        ) {
+          window.alert('구매자의 포인트가 부족합니다');
+        } else if (match.params.id === 'buy' && json.message === 'SUCCESS') {
+          window.alert('구매가 완료 되었습니다.');
+          history.push('/');
+        } else if (match.params.id === 'sell' && json.message === 'SUCCESS') {
+          window.alert('판매가 완료 되었습니다.');
+          history.push('/');
+        }
+      });
   };
+
+  useEffect(() => {
+    if (match.params.id === 'sell') {
+      setIsSellAuction(false);
+    }
+  }, [match.params.id]);
   return (
     <>
       <InstantBuyBox>
-        <InstantBuyTitle>즉시 구매가</InstantBuyTitle>
-        <InstantBuyPrice>{buy_price}</InstantBuyPrice>
+        <InstantBuyTitle>
+          즉시 {isSellAuction ? '구매' : '판매'}가
+        </InstantBuyTitle>
+        <InstantBuyPrice>
+          {isSellAuction
+            ? `${buy_price && buy_price.toLocaleString('ko-KR')}`
+            : `${sell_price && sell_price.toLocaleString('ko-KR')}`}
+        </InstantBuyPrice>
         <Won>원</Won>
       </InstantBuyBox>
       <FeeBox>
         <UserPoint>포인트</UserPoint>
-        <FeeRight>{user_point}</FeeRight>
+        <FeeRight>{user_point && user_point.toLocaleString('ko-KR')}</FeeRight>
       </FeeBox>
       <FeeBoxBottom>
         <FeeLeft>배송비</FeeLeft>
@@ -24,12 +71,17 @@ const SwtichMenu = ({ buy_price, user_point, history }) => {
       <TotalBox>
         <TotalPriceBox>
           <TotalPriceTitle>총 결제 금액</TotalPriceTitle>
-          <TotalPrice>{buy_price} 원</TotalPrice>
+          <TotalPrice>
+            {isSellAuction
+              ? `${buy_price && buy_price.toLocaleString('ko-KR')}`
+              : `${sell_price && sell_price.toLocaleString('ko-KR')}`}
+            원
+          </TotalPrice>
         </TotalPriceBox>
       </TotalBox>
       <InstantBuyButtonBox>
         <InstantBuyButton onClick={submitOrder}>
-          즉시 구매 계속
+          즉시 {isSellAuction ? '구매' : '판매'} 계속
         </InstantBuyButton>
       </InstantBuyButtonBox>
     </>
@@ -129,4 +181,4 @@ const InstantBuyButton = styled.button`
   color: white;
 `;
 
-export default SwtichMenu;
+export default withRouter(SwtichMenu);

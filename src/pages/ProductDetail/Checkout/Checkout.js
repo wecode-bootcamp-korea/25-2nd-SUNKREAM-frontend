@@ -3,26 +3,39 @@ import styled from 'styled-components';
 import SwtichMenu from './components/SwtichMenu';
 import SwitchAuction from './components/SwitchAuction';
 
-const Checkout = props => {
+const Checkout = ({ match }) => {
   const [isClicked, setClicked] = useState(false);
   const [productData, setProductData] = useState({});
   const [noSellPrice, setNoSellPrice] = useState(false);
   const [noBuyPrice, setNoBuyPrice] = useState(false);
+  const [isSell, setIsSell] = useState(true);
 
   const changeColor = () => {
     if (productData.bidding_id !== null) setClicked(!isClicked);
   };
 
-  const dataLoad = () => {
-    fetch(`http://10.58.1.125:8000/orders/bidding/1/${sell_id}`)
+  useEffect(() => {
+    fetch(
+      `http://10.58.5.224:8000/orders/bidding/${match.params.size}/${
+        match.params.id === 'buy' ? 1 : 2
+      }`,
+      {
+        headers: {
+          Authorization: localStorage.token,
+        },
+      }
+    )
       .then(res => res.json())
       .then(res => {
         setProductData(res.data);
       });
-  };
 
-  useEffect(() => {
-    dataLoad();
+    if (match.params.id === 'sell') {
+      setIsSell(false);
+    } else if (match.params.id === 'but') {
+      setIsSell(true);
+    }
+
     if (productData.bidding_id === null) setClicked(true);
     if (productData.sell_price === null) {
       setNoSellPrice(true);
@@ -36,7 +49,13 @@ const Checkout = props => {
         setNoSellPrice(true);
       }
     }
-  }, [productData.sell_price, productData.buy_price, productData.bidding_id]);
+  }, [
+    productData.bidding_id,
+    productData.sell_price,
+    productData.buy_price,
+    match.params.id,
+    match.params.size,
+  ]);
 
   const {
     product_name,
@@ -48,9 +67,8 @@ const Checkout = props => {
     user_point,
     product_image_url,
     bidding_id,
+    bidding_price,
   } = productData;
-
-  const sell_id = 2;
 
   return (
     <CheckoutContainer>
@@ -78,39 +96,70 @@ const Checkout = props => {
           </ProductBox>
           <PriceListBox>
             <PriceList>
-              <GrayedTag>즉시 {}가</GrayedTag>
+              <GrayedTag>즉시 구매가 </GrayedTag>
               {noBuyPrice ? (
                 <PriceP>- 원</PriceP>
               ) : (
-                <PriceP>{productData && buy_price} 원</PriceP>
+                <PriceP>
+                  {buy_price && buy_price.toLocaleString('ko-KR')} 원
+                </PriceP>
               )}
             </PriceList>
             <PriceListBorder>
-              <GrayedTag>즉시 판매가</GrayedTag>
+              <GrayedTag>즉시 판매가 </GrayedTag>
               {noSellPrice ? (
                 <PriceP>- 원</PriceP>
               ) : (
-                <PriceP>{productData && sell_price} 원</PriceP>
+                <PriceP>
+                  {sell_price && sell_price.toLocaleString('ko-KR')} 원
+                </PriceP>
               )}
             </PriceListBorder>
           </PriceListBox>
           <TabSelect>
-            <Tab>
-              <SelectListLeft>
-                <AtagAuction clicker={isClicked} onClick={changeColor}>
-                  구매 입찰
-                </AtagAuction>
-              </SelectListLeft>
-              <SelectList>
-                <AtagBuy
-                  bidding_id={productData && bidding_id}
-                  clicker={isClicked}
-                  onClick={changeColor}
-                >
-                  즉시 구매
-                </AtagBuy>
-              </SelectList>
-            </Tab>
+            {isSell ? (
+              <Tab>
+                <SelectListLeft>
+                  <AtagAuction
+                    buy_price={buy_price}
+                    clicker={isClicked}
+                    onClick={changeColor}
+                  >
+                    구매 입찰
+                  </AtagAuction>
+                </SelectListLeft>
+                <SelectList>
+                  <AtagBuy
+                    bidding_id={productData && bidding_id}
+                    clicker={isClicked}
+                    onClick={changeColor}
+                  >
+                    즉시 구매
+                  </AtagBuy>
+                </SelectList>
+              </Tab>
+            ) : (
+              <Tab>
+                <SelectListLeft>
+                  <AtagAuctionSell
+                    buy_price={buy_price}
+                    clicker={isClicked}
+                    onClick={changeColor}
+                  >
+                    판매 입찰
+                  </AtagAuctionSell>
+                </SelectListLeft>
+                <SelectList>
+                  <AtagSell
+                    bidding_id={productData && bidding_id}
+                    clicker={isClicked}
+                    onClick={changeColor}
+                  >
+                    즉시 판매
+                  </AtagSell>
+                </SelectList>
+              </Tab>
+            )}
           </TabSelect>
           {!isClicked ? (
             <SwtichMenu
@@ -118,11 +167,14 @@ const Checkout = props => {
               sell_price={productData && sell_price}
               user_point={productData && user_point}
               bidding_id={productData && bidding_id}
+              bidding_price={productData && bidding_price}
               clicker={isClicked}
             />
           ) : (
             <SwitchAuction
               user_point={productData && user_point}
+              buy_price={productData && buy_price}
+              bidding_price={productData && bidding_price}
               clicker={isClicked}
               changeColor={changeColor}
             />
@@ -267,6 +319,19 @@ const AtagAuction = styled.a`
   color: ${props => (props.clicker ? 'white' : 'black')};
 `;
 
+const AtagAuctionSell = styled.a`
+  display: block;
+  flex: 1;
+  padding-top: 10px;
+  margin: 2px;
+  height: 40px;
+  border-radius: 40px;
+  font-weight: 800;
+  text-align: center;
+  background-color: ${props => (props.clicker ? '#41B979' : 'lightgray')};
+  color: ${props => (props.clicker ? 'white' : 'black')};
+`;
+
 const AtagBuy = styled.a`
   display: block;
   padding-top: 10px;
@@ -276,6 +341,19 @@ const AtagBuy = styled.a`
   font-weight: 800;
   text-align: center;
   background-color: ${props => (props.clicker ? 'lightgray' : '#ef6253')};
+  color: ${props => (props.clicker ? 'black' : 'white')};
+  pointer-events: ${props => (props.bidding_id === null ? 'none' : null)};
+`;
+
+const AtagSell = styled.a`
+  display: block;
+  padding-top: 10px;
+  margin: 2px;
+  height: 40px;
+  border-radius: 40px;
+  font-weight: 800;
+  text-align: center;
+  background-color: ${props => (props.clicker ? 'lightgray' : '#41B979')};
   color: ${props => (props.clicker ? 'black' : 'white')};
   pointer-events: ${props => (props.bidding_id === null ? 'none' : null)};
 `;
