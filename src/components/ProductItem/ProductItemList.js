@@ -57,13 +57,14 @@ class ProductItemContainer extends Component {
         </Brand>
         <ImageWrapper>
           {items.map(item => (
-            <ProductItem
-              key={item.id}
-              name={item.name}
-              brand={item.brand}
-              price={item.product_price}
-              thumbnail_url={item.thumbnail_url}
-            />
+            <ProducOnetWrapper key={item.id}>
+              <ProductItem
+                name={item.name}
+                brand={item.brand}
+                price={item.product_price}
+                thumbnail_url={item.thumbnail_url}
+              />
+            </ProducOnetWrapper>
           ))}
         </ImageWrapper>
         <ButtonWrapper>
@@ -78,19 +79,12 @@ export default ProductItemContainer;
 const ProductWrapper = styled.div`
   max-width: 1280px;
   margin: auto;
-`;
-
-const ImageWrapper = styled.div`
   display: flex;
-  position: relative;
-  max-width: 1280px;
-  flex-wrap: wrap;
-  margin: auto;
-  z-index: 0;
+  flex-direction: column;
 `;
 
 const Brand = styled.div`
-  margin: 20px 12px 20px 10px;
+  margin: 20px 12px 20px 40px;
 `;
 
 const BrandName = styled.h1`
@@ -106,13 +100,25 @@ const BrandSort = styled.h1`
   color: rgba(34, 34, 34, 0.5);
 `;
 
+const ImageWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 1280px;
+  flex-wrap: wrap;
+  margin: auto;
+  z-index: 0;
+`;
+
+const ProducOnetWrapper = styled.div`
+  width: 285px;
+`;
 const ButtonWrapper = styled.div`
   height: 100px;
   margin: 20px;
+  position: relative;
 `;
 
 const Button = styled.button`
-  display: inline-block;
   position: absolute;
   left: 47%;
   align-items: center;
