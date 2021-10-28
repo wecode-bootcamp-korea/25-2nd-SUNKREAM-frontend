@@ -44,6 +44,12 @@ class Nav extends Component {
     history.push('/');
   };
 
+  goToMyPage = () => {
+    const { history } = this.props;
+
+    history.push('/my-page');
+  };
+
   goToProduct = () => {
     const { history } = this.props;
     history.push('/product-list');
@@ -62,7 +68,7 @@ class Nav extends Component {
               <NavtopItem>
                 <TopLink>장바구니</TopLink>
               </NavtopItem>
-              <NavtopItem>
+              <NavtopItem onClick={this.goToMyPage}>
                 <TopLink>마이페이지</TopLink>
               </NavtopItem>
               <NavtopItem>
