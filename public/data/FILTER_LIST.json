@@ -1,0 +1,23 @@
+[
+  {
+    "brand": [
+      { "id": 1, "filterList": "Nike" },
+      { "id": 2, "filterList": "Converse" },
+      { "id": 3, "filterList": "Vans" }
+    ],
+    "size": [
+      { "id": 4, "sizeList": "230" },
+      { "id": 5, "sizeList": "240" },
+      { "id": 6, "sizeList": "250" },
+      { "id": 7, "sizeList": "260" },
+      { "id": 8, "sizeList": "270" },
+      { "id": 9, "sizeList": "280" },
+      { "id": 10, "sizeList": "290" }
+    ],
+    "price": [
+      { "id": 11, "priceList": "10만원 이하" },
+      { "id": 12, "priceList": "10만원 ~ 30만원 이하" },
+      { "id": 13, "priceList": "30만원 이상" }
+    ]
+  }
+]
