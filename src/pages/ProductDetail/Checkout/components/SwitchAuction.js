@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 
-const SwitchAuction = ({ history, changeColor, user_point }) => {
+const SwitchAuction = ({
+  history,
+  changeColor,
+  user_point,
+  buy_price,
+  match,
+}) => {
   const [isClickedInput, setClickedInput] = useState(false);
   const [isPriceEnough, setIsPriceEnough] = useState(false);
   const [auctionPrice, setAuctionPrice] = useState(0);
+  const [isSellAuction, setIsSellAuction] = useState(true);
 
   const changeBorder = () => {
     setClickedInput(!isClickedInput);
@@ -17,30 +25,47 @@ const SwitchAuction = ({ history, changeColor, user_point }) => {
     } else if (value > 30000 || value % 1000 === 0) {
       setIsPriceEnough(false);
       setAuctionPrice(value);
-      if (value > 210000) {
-        changeColor();
-      }
+    }
+    if (value >= buy_price) {
+      changeColor();
     }
   };
 
+  useEffect(() => {
+    if (match.params.id === 'sell') {
+      setIsSellAuction(false);
+    } else if (match.params.id === 'buy') {
+      setIsSellAuction(true);
+    }
+  }, [match.params.id]);
+
   const handleInput = () => {
-    fetch(`http://10.58.1.125:8000/orders/bidding/1/${buy_id}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        price: auctionPrice,
-      }),
-    });
+    fetch(
+      `http://10.58.5.224:8000/orders/bidding/1/${
+        match.params.id === 'buy' ? 1 : 2
+      }`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: localStorage.token,
+        },
+        body: JSON.stringify({
+          price: auctionPrice,
+        }),
+      }
+    );
     if (auctionPrice !== 0 && !isPriceEnough) {
       window.alert('입찰이 완료되었습니다.');
     }
   };
 
-  const buy_id = 1;
   return (
     <>
       <InstantBuyBox clicked={isClickedInput} priceEnough={isPriceEnough}>
         <AuctionBox>
-          <AuctionPrice redfont={isPriceEnough}>구매 희망가</AuctionPrice>
+          <AuctionPrice redfont={isPriceEnough}>
+            {isSellAuction ? '구매' : '판매'} 희망가
+          </AuctionPrice>
 
           <InputBox>
             <InstantBuyPrice
@@ -60,20 +85,26 @@ const SwitchAuction = ({ history, changeColor, user_point }) => {
       </InstantBuyBox>
       <FeeBox>
         <UserPoint>포인트</UserPoint>
-        <FeeRight>{user_point}</FeeRight>
+        <FeeRight>{user_point && user_point.toLocaleString('ko-KR')}</FeeRight>
       </FeeBox>
       <FeeBoxBottom>
-        <FeeLeft>배송비</FeeLeft>
+        <FeeLeft>{isSellAuction ? '배송비' : '판매수수료'}</FeeLeft>
         <FeeRight>-</FeeRight>
       </FeeBoxBottom>
       <TotalBox>
         <TotalPriceBox>
-          <TotalPriceTitle>총 결제 금액</TotalPriceTitle>
-          <TotalPrice>{auctionPrice} 원</TotalPrice>
+          <TotalPriceTitle>
+            총 {isSellAuction ? '결제 ' : '정산 '}금액
+          </TotalPriceTitle>
+          <TotalPrice>
+            {auctionPrice && auctionPrice.toLocaleString('ko-KR')} 원
+          </TotalPrice>
         </TotalPriceBox>
       </TotalBox>
       <InstantBuyButtonBox>
-        <InstantBuyButton onClick={handleInput}>구매 입찰</InstantBuyButton>
+        <InstantBuyButton onClick={handleInput}>
+          {isSellAuction ? '구매 ' : '판매 '} 입찰 계속
+        </InstantBuyButton>
       </InstantBuyButtonBox>
     </>
   );
@@ -201,4 +232,4 @@ const PriceAlert = styled.p`
   color: #ef6253;
   visibility: ${props => (props.priceEnough ? '' : 'hidden')};
 `;
-export default SwitchAuction;
+export default withRouter(SwitchAuction);
