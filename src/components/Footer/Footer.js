@@ -4,117 +4,135 @@ import styled from 'styled-components';
 class Footer extends Component {
   render() {
     return (
-      <Wrapper>
-        <Inner>
-          <InnerTop>
-            <InnerTopLeft>
-              <MenuBox>
-                <MenuTitle>이용안내</MenuTitle>
-                <MenuList>
-                  <MenuItem>검수기준</MenuItem>
-                  <MenuItem>이용정책</MenuItem>
-                  <MenuItem>패널티 정책</MenuItem>
-                  <MenuItem>커뮤니티 가이드라인</MenuItem>
-                </MenuList>
-              </MenuBox>
-              <MenuBox>
-                <MenuTitle>고객지원</MenuTitle>
-                <MenuList>
-                  <MenuItem>공지사항</MenuItem>
-                  <MenuItem>서비스소개</MenuItem>
-                  <MenuItem>쇼룸안내</MenuItem>
-                  <MenuItem>판매자 방문접수</MenuItem>
-                </MenuList>
-              </MenuBox>
-            </InnerTopLeft>
-            <InnerTopRight>
-              <ServiceTitle>
-                고객센터
-                <ServicePhone>1588-7813</ServicePhone>
-              </ServiceTitle>
-              <ServiceTime>
-                <TimeBox>
-                  <TimeTerm>운영시간</TimeTerm>
-                  <TimeDescription>
-                    평일 11:00 - 18:00 (토 ∙ 일, 공휴일 휴무)
-                  </TimeDescription>
-                </TimeBox>
-                <TimeBox>
-                  <TimeTerm>점심시간</TimeTerm>
-                  <TimeDescription>평일 13:00 - 14:00</TimeDescription>
-                </TimeBox>
-              </ServiceTime>
-              <ServiceNotic>1:1문의는 앱에서만 가능합니다.</ServiceNotic>
-              <ServiceBtnWrapper>
-                <ServiceBtn>자주묻는 질문</ServiceBtn>
-              </ServiceBtnWrapper>
-            </InnerTopRight>
-          </InnerTop>
-          <InnerMid>
-            <MidWrapper>
-              <TermList>
-                <TermItem>회사소개</TermItem>
-                <TermItem>인재채용</TermItem>
-                <TermItem>제휴제안</TermItem>
-                <TermItem>이용약관</TermItem>
-                <TermItem>개인정보처리방침</TermItem>
-              </TermList>
-              <SNS>
-                <SNSItem>
-                  <i className="fab fa-instagram" />
-                </SNSItem>
-                <SNSItem>
-                  <i className="fab fa-facebook" />
-                </SNSItem>
-                <SNSItem>
-                  <i className="fab fa-twitter" />
-                </SNSItem>
-              </SNS>
-            </MidWrapper>
-            <BusinessInfo>
-              <InfoList>
-                <BusinessTitle>슈크림 주식회사 대표</BusinessTitle>
-                <BusinessExplain>
-                  <Git userName="71summernight">김현진</Git>,
-                  <Git userName="p-acid">박산성</Git>,
-                  <Git userName="chihunmanse">박치훈</Git>,
-                  <Git userName="crescentfull">송영록</Git>,
-                  <Git userName="chrisYang256">양가현</Git>,
-                  <Git userName="sunhoh">이선호</Git>,
-                  <Git userName="sangyouh">하상영</Git>
-                </BusinessExplain>
-                <BusinessTitle>사업자등록번호:</BusinessTitle>
-                <BusinessExplain>580-88-01618 </BusinessExplain>
-                <BusinessTitle>통신판매업:</BusinessTitle>
-                <BusinessExplain>선릉 위워크타워2호점</BusinessExplain>
-              </InfoList>
-              <InfoList>
-                <BusinessTitle>사업장소재지:</BusinessTitle>
-                <BusinessExplain>
-                  슈크림팀 완전짱짱시 짱짱구 짱짱동 117,99층
-                </BusinessExplain>
-                <BusinessTitle>개인정보관리책임자:</BusinessTitle>
-                <BusinessExplain>슈크림</BusinessExplain>
-                <BusinessTitle>호스팅 서비스:</BusinessTitle>
-                <BusinessExplain>네이버 클라우드(주)</BusinessExplain>
-              </InfoList>
-            </BusinessInfo>
-          </InnerMid>
-          <InnerBottom>
-            <Notice>
-              슈크림(주)는 통신판매 중개자로서 통신판매의 당사자가 아니므로 개별
-              판매자가 등록한 상품정보에 대해서 책임을 지지 않습니다. 단,
-              거래과정에서 검수하고 보증하는 내용에 대한 책임은 당사에 있습니다.
-            </Notice>
-            <Copyright>© 2021 SHOE-KREAM.Corp.</Copyright>
-          </InnerBottom>
-        </Inner>
-      </Wrapper>
+      <FooterWrapper>
+        <FooterBanner>
+          <Banner1 src="/images/footer001.png" />
+          <Banner2 src="/images/footer002.png" />
+        </FooterBanner>
+        <Wrapper>
+          <Inner>
+            <InnerTop>
+              <InnerTopLeft>
+                <MenuBox>
+                  <MenuTitle>이용안내</MenuTitle>
+                  <MenuList>
+                    <MenuItem>검수기준</MenuItem>
+                    <MenuItem>이용정책</MenuItem>
+                    <MenuItem>패널티 정책</MenuItem>
+                    <MenuItem>커뮤니티 가이드라인</MenuItem>
+                  </MenuList>
+                </MenuBox>
+                <MenuBox>
+                  <MenuTitle>고객지원</MenuTitle>
+                  <MenuList>
+                    <MenuItem>공지사항</MenuItem>
+                    <MenuItem>서비스소개</MenuItem>
+                    <MenuItem>쇼룸안내</MenuItem>
+                    <MenuItem>판매자 방문접수</MenuItem>
+                  </MenuList>
+                </MenuBox>
+              </InnerTopLeft>
+              <InnerTopRight>
+                <ServiceTitle>
+                  고객센터
+                  <ServicePhone>1588-7813</ServicePhone>
+                </ServiceTitle>
+                <ServiceTime>
+                  <TimeBox>
+                    <TimeTerm>운영시간</TimeTerm>
+                    <TimeDescription>
+                      평일 11:00 - 18:00 (토 ∙ 일, 공휴일 휴무)
+                    </TimeDescription>
+                  </TimeBox>
+                  <TimeBox>
+                    <TimeTerm>점심시간</TimeTerm>
+                    <TimeDescription>평일 13:00 - 14:00</TimeDescription>
+                  </TimeBox>
+                </ServiceTime>
+                <ServiceNotic>1:1문의는 앱에서만 가능합니다.</ServiceNotic>
+                <ServiceBtnWrapper>
+                  <ServiceBtn>자주묻는 질문</ServiceBtn>
+                </ServiceBtnWrapper>
+              </InnerTopRight>
+            </InnerTop>
+            <InnerMid>
+              <MidWrapper>
+                <TermList>
+                  <TermItem>회사소개</TermItem>
+                  <TermItem>인재채용</TermItem>
+                  <TermItem>제휴제안</TermItem>
+                  <TermItem>이용약관</TermItem>
+                  <TermItem>개인정보처리방침</TermItem>
+                </TermList>
+                <SNS>
+                  <SNSItem>
+                    <i className="fab fa-instagram" />
+                  </SNSItem>
+                  <SNSItem>
+                    <i className="fab fa-facebook" />
+                  </SNSItem>
+                  <SNSItem>
+                    <i className="fab fa-twitter" />
+                  </SNSItem>
+                </SNS>
+              </MidWrapper>
+              <BusinessInfo>
+                <InfoList>
+                  <BusinessTitle>슈크림 주식회사 대표</BusinessTitle>
+                  <BusinessExplain>
+                    <Git userName="71summernight">김현진</Git>,
+                    <Git userName="p-acid">박산성</Git>,
+                    <Git userName="chihunmanse">박치훈</Git>,
+                    <Git userName="crescentfull">송영록</Git>,
+                    <Git userName="chrisYang256">양가현</Git>,
+                    <Git userName="sunhoh">이선호</Git>,
+                    <Git userName="sangyouh">하상영</Git>
+                  </BusinessExplain>
+                  <BusinessTitle>사업자등록번호:</BusinessTitle>
+                  <BusinessExplain>580-88-01618 </BusinessExplain>
+                  <BusinessTitle>통신판매업:</BusinessTitle>
+                  <BusinessExplain>선릉 위워크타워2호점</BusinessExplain>
+                </InfoList>
+                <InfoList>
+                  <BusinessTitle>사업장소재지:</BusinessTitle>
+                  <BusinessExplain>
+                    슈크림팀 완전짱짱시 짱짱구 짱짱동 117,99층
+                  </BusinessExplain>
+                  <BusinessTitle>개인정보관리책임자:</BusinessTitle>
+                  <BusinessExplain>슈크림</BusinessExplain>
+                  <BusinessTitle>호스팅 서비스:</BusinessTitle>
+                  <BusinessExplain>네이버 클라우드(주)</BusinessExplain>
+                </InfoList>
+              </BusinessInfo>
+            </InnerMid>
+            <InnerBottom>
+              <Notice>
+                슈크림(주)는 통신판매 중개자로서 통신판매의 당사자가 아니므로
+                개별 판매자가 등록한 상품정보에 대해서 책임을 지지 않습니다. 단,
+                거래과정에서 검수하고 보증하는 내용에 대한 책임은 당사에
+                있습니다.
+              </Notice>
+              <Copyright>© 2021 SHOE-KREAM.Corp.</Copyright>
+            </InnerBottom>
+          </Inner>
+        </Wrapper>
+      </FooterWrapper>
     );
   }
 }
 
 export default Footer;
+const FooterWrapper = styled.div``;
+const FooterBanner = styled.div`
+  margin-top: 100px;
+  object-fit: cover;
+`;
+const Banner1 = styled.img`
+  width: 50%;
+`;
+const Banner2 = styled.img`
+  width: 50%;
+`;
 
 const Wrapper = styled.div`
   bottom: 0;

@@ -5,9 +5,11 @@ import styled from 'styled-components';
 
 class SearchItem extends Component {
   onClickHandler = () => {
-    const { history, product_id } = this.props;
-    history.push(`/product_detail/${product_id}`);
+    const { history, product_id, cancelToggle } = this.props;
+    history.push(`/product-detail/${product_id}`);
+    cancelToggle();
   };
+
   render() {
     const { name, thumbnail_url, price } = this.props;
     return (

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { BASE_URL } from '../../config';
 import { useLockBodyScroll } from '../../utils/hooks';
 import SearchItem from './SearchItem';
 
-const Search = ({ cancelToggle }) => {
+const Search = ({ cancelToggle, history }) => {
   useLockBodyScroll();
   const [items, setItems] = useState([]);
   const [recentSearch, setRecentSearch] = useState([]);
@@ -19,20 +20,20 @@ const Search = ({ cancelToggle }) => {
   const handleChange = e => {
     updateSearchResult(e.target.value);
   };
-
   const pushRecentSearch = e => {
     const { value } = e.target;
     const { key } = e;
     if (key === 'Enter' && value !== '') {
       const isAlreadySearched = recentSearch.includes(value);
-      const recentSearchKeywords =
-        localStorage.getItem('recentSearchKeywords') ?? '';
+      const recentSearchKeywords = localStorage.getItem('recentSearchKeywords');
 
       if (!isAlreadySearched) {
         setRecentSearch(prev => [...prev, value]);
         localStorage.setItem(
           'recentSearchKeywords',
-          recentSearchKeywords.concat(',' + value)
+          recentSearchKeywords
+            ? recentSearchKeywords.concat(',' + value)
+            : value
         );
       } else {
         const replacedSearch = recentSearch
@@ -41,7 +42,9 @@ const Search = ({ cancelToggle }) => {
         setRecentSearch(replacedSearch);
         localStorage.setItem('recentSearchKeywords', replacedSearch.join(','));
       }
-
+      const keyword = e.target.value;
+      history.push(`/products?search=${keyword}`);
+      cancelToggle();
       e.target.value = '';
     }
   };
@@ -98,6 +101,7 @@ const Search = ({ cancelToggle }) => {
                 price={item.product_price}
                 product_id={item.id}
                 thumbnail_url={item.thumbnail_url}
+                cancelToggle={cancelToggle}
               />
             ))}
           </RecentSearches>
@@ -107,7 +111,7 @@ const Search = ({ cancelToggle }) => {
   );
 };
 
-export default Search;
+export default withRouter(Search);
 
 const SearchBoxWrapper = styled.div`
   display: flex;
