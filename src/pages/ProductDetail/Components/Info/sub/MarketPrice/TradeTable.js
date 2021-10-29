@@ -7,9 +7,9 @@ const TradeTable = ({ currentPick, tableData }) => {
   return (
     <Wrapper>
       <TradeTableBox>
-        {tableData[tradeType].length < 1 ? (
+        {tableData?.[tradeType].length < 1 ? (
           <EmptyList>
-            <i class="fas fa-chart-line" />
+            <i className="fas fa-chart-line" />
             <Text>체결된 거래가 없습니다.</Text>
           </EmptyList>
         ) : (
@@ -21,16 +21,19 @@ const TradeTable = ({ currentPick, tableData }) => {
                 ))}
               </tr>
             </thead>
-            {tableData[tradeType].map(data => {
-              const { id, size, price, created_at, count } = data;
-              return (
-                <tr key={id}>
-                  <TableData>{size}</TableData>
-                  <TableData>{`${price?.toLocaleString('kr-KO')}원`}</TableData>
-                  <TableData>{created_at || count}</TableData>
-                </tr>
-              );
-            })}
+            {tableData &&
+              tableData[tradeType].map(data => {
+                const { id, size, price, created_at, count } = data;
+                return (
+                  <tr key={id}>
+                    <TableData>{size}</TableData>
+                    <TableData>{`${price?.toLocaleString(
+                      'kr-KO'
+                    )}원`}</TableData>
+                    <TableData>{created_at || count}</TableData>
+                  </tr>
+                );
+              })}
           </>
         )}
       </TradeTableBox>

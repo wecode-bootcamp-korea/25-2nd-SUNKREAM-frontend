@@ -42,9 +42,6 @@ const Search = ({ cancelToggle, history }) => {
         setRecentSearch(replacedSearch);
         localStorage.setItem('recentSearchKeywords', replacedSearch.join(','));
       }
-      const keyword = e.target.value;
-      history.push(`/products?search=${keyword}`);
-      cancelToggle();
       e.target.value = '';
     }
   };

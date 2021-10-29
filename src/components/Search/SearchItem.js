@@ -7,6 +7,7 @@ class SearchItem extends Component {
   onClickHandler = () => {
     const { history, product_id, cancelToggle } = this.props;
     history.push(`/product-detail/${product_id}`);
+    window.scrollTo(0, 0);
     cancelToggle();
   };
 
@@ -48,13 +49,13 @@ const ImageWrapper = styled.div`
   width: 70px;
   height: 70px;
   margin: 10px;
-  background-color: #f4f4f4;
 `;
 
 const Image = styled.img`
   width: 60px;
   height: 60px;
   object-fit: cover;
+  border-radius: 10px;
 `;
 
 const Discription = styled.div`

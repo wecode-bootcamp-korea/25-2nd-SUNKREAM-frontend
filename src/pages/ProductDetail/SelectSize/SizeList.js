@@ -8,21 +8,22 @@ const SizeList = ({ list, currentSize, handleButton, match }) => {
 
   return (
     <SizeWrapper>
-      {list.map(({ size, price }, idx) => {
-        const isCurrentSize = size === currentSize ? 'right' : '';
-        return (
-          <SizeItem
-            key={idx}
-            isCurrentSize={isCurrentSize}
-            onClick={() => handleButton(size, price)}
-          >
-            <div>{size}</div>
-            <Price tradeType={id}>
-              {price && price.toLocaleString('ko-KR')}
-            </Price>
-          </SizeItem>
-        );
-      })}
+      {list &&
+        list.map(({ size, bidding_price, productsize_id }, idx) => {
+          const isCurrentSize = size === currentSize ? 'right' : '';
+          return (
+            <SizeItem
+              key={idx}
+              isCurrentSize={isCurrentSize}
+              onClick={() => handleButton(size, bidding_price, productsize_id)}
+            >
+              <div>{size}</div>
+              <Price tradeType={id}>
+                {bidding_price ? bidding_price.toLocaleString('ko-KR') : '입찰'}
+              </Price>
+            </SizeItem>
+          );
+        })}
     </SizeWrapper>
   );
 };

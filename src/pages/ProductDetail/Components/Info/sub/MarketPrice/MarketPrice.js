@@ -32,7 +32,7 @@ const MarketPrice = ({
           )}
         </SizeBtn>
       </Wrapper>
-      {graphData.length > 0 && (
+      {graphData?.length > 1 && (
         <>
           <ControlBtns
             currentLine="term"

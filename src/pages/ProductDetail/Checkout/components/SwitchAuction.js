@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { BASE_URL } from '../../../../config';
 
 const SwitchAuction = ({
   history,
@@ -26,9 +27,6 @@ const SwitchAuction = ({
       setIsPriceEnough(false);
       setAuctionPrice(value);
     }
-    if (value >= buy_price) {
-      changeColor();
-    }
   };
 
   useEffect(() => {
@@ -41,7 +39,7 @@ const SwitchAuction = ({
 
   const handleInput = () => {
     fetch(
-      `http://10.58.5.224:8000/orders/bidding/1/${
+      `${BASE_URL}/orders/bidding/${match.params.size}/${
         match.params.id === 'buy' ? 1 : 2
       }`,
       {
@@ -56,6 +54,7 @@ const SwitchAuction = ({
     );
     if (auctionPrice !== 0 && !isPriceEnough) {
       window.alert('입찰이 완료되었습니다.');
+      history.push('/');
     }
   };
 

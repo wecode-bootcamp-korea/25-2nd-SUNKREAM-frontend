@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import SwtichMenu from './components/SwtichMenu';
 import SwitchAuction from './components/SwitchAuction';
+import { BASE_URL } from '../../../config';
 
 const Checkout = ({ match }) => {
   const [isClicked, setClicked] = useState(false);
@@ -16,8 +17,8 @@ const Checkout = ({ match }) => {
 
   useEffect(() => {
     fetch(
-      `http://10.58.5.224:8000/orders/bidding/${match.params.size}/${
-        match.params.id === 'buy' ? 1 : 2
+      `${BASE_URL}/orders/bidding/${match.params.size}/${
+        match.params.id === 'buy' ? 2 : 1
       }`,
       {
         headers: {
@@ -280,7 +281,7 @@ const GrayedTag = styled.p`
   opacity: 40%;
   font-weight: 500;
   font-size: 15px;
-  color: gray;
+  color: ${({ theme }) => theme.gray};
 `;
 
 const PriceP = styled.p`

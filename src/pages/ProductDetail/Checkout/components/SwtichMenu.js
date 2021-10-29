@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import { BASE_URL } from '../../../../config';
 
 const SwtichMenu = ({
   buy_price,
@@ -14,7 +15,7 @@ const SwtichMenu = ({
   const [isSellAuction, setIsSellAuction] = useState(true);
 
   const submitOrder = () => {
-    fetch(`http://10.58.5.224:8000/orders/${bidding_id}`, {
+    fetch(`${BASE_URL}/orders/${bidding_id}`, {
       method: 'POST',
       headers: {
         Authorization: localStorage.token,

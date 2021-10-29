@@ -59,6 +59,7 @@ class ProductItemContainer extends Component {
           {items.map(item => (
             <ProducOnetWrapper key={item.id}>
               <ProductItem
+                id={item.id}
                 name={item.name}
                 brand={item.brand}
                 price={item.product_price}

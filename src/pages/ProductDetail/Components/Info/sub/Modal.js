@@ -27,7 +27,6 @@ const Modal = ({ children, sizeList, currentSize, handleButton }) => {
               <Text id={size} onClick={handleButton} size>
                 {size}
               </Text>
-              <Text id={size}>354,000</Text>
             </SizeItem>
           );
         })}

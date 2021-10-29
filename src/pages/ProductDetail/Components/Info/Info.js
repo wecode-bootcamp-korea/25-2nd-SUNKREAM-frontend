@@ -24,6 +24,7 @@ const Info = ({
   setCurrentPick,
 }) => {
   const {
+    product_id,
     name,
     recent_price,
     buy_price,
@@ -37,7 +38,7 @@ const Info = ({
       <TitleBox title={{ name }} />
       <Size currentSize={currentSize} handleModal={handleModal} />
       <Price price={recent_price} />
-      <TradeBtns price={{ buy_price, sell_price }} />
+      <TradeBtns product_id={product_id} price={{ buy_price, sell_price }} />
       <InterestBtn wishData={wishData} handleWishBtn={handleWishBtn} />
       <InfoDetail info={{ model_number, release_price }} />
       <DeliveryInfo />

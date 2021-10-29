@@ -26,9 +26,9 @@ const ListBox = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: ${({ noList }) => !noList && '20px 0'};
-  height: 500px;
+  padding: ${({ noList }) => (noList ? '80px' : '20px 0')};
   text-align: ${({ noList }) => noList && 'center'};
   overflow: scroll;
+  color: ${({ noList, theme }) => noList && theme.gray};
   font-size: 15px;
 `;

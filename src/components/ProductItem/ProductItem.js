@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-function ProductItem({ id, history, thumbnail_url, name, brand, price }) {
-  // const history = useHistory();
-  const [toggle, setToggle] = useState(false);
-
+function ProductItem({ id, brand, name, price, thumbnail_url }) {
   return (
-    <Link to={`/product-detail/${id}`}>
-      <Item>
+    <Item>
+      <Link
+        to={`/product-detail/${id}`}
+        onClick={() => {
+          window.scrollTo(0, 0);
+        }}
+      >
         <ItemImgInner>
           <ItemImg>
             <img alt="itemImg" src={thumbnail_url} />
@@ -27,11 +28,11 @@ function ProductItem({ id, history, thumbnail_url, name, brand, price }) {
             <p>즉시 구매가</p>
           </Price>
         </ItemInfo>
-      </Item>
-    </Link>
+      </Link>
+    </Item>
   );
 }
-export default withRouter(ProductItem);
+export default ProductItem;
 
 const Item = styled.div`
   margin: 20px 0;
@@ -43,7 +44,6 @@ const ItemImgInner = styled.div`
   position: relative;
   border-radius: 14px;
   cursor: pointer;
-  background-color: #f6eeed;
   overflow: hidden;
 
   &:hover {
@@ -56,6 +56,7 @@ const ItemImgInner = styled.div`
 const ItemImg = styled.div`
   img {
     width: 100%;
+    height: 100%;
   }
 `;
 

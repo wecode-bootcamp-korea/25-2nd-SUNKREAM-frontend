@@ -14,6 +14,7 @@ class Nav extends Component {
   clearToken = () => {
     window.localStorage.removeItem('token');
     this.setState({ isModalOn: false });
+    this.goToMain();
   };
 
   modalToggle = () => {

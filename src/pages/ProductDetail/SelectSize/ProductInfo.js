@@ -2,17 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 const ProductInfo = ({ info }) => {
-  const { model, name, kr_name } = info;
-
   return (
     <Wrapper>
       <ImgWrapper>
-        <Img src="https://kream-phinf.pstatic.net/MjAyMDEwMTJfMzIg/MDAxNjAyNDkzNDI2Mzgw.gdfh5cClyVKeEAyPxLGkes4opFzw0BpkZppespaL2h0g.5a5EEIvlxUsKgq46k1ee4vmcmStenQEdmgxA6-uGUewg.PNG/p_664cf838924344eeafa782f1d2bf058a.png?type=m" />
+        <Img src={info && info.product_image_url} />
       </ImgWrapper>
       <TextLine>
-        <Text title="title">{model}</Text>
-        <Text name="name">{name}</Text>
-        <Text krName="krName">{kr_name}</Text>
+        <Text title="title">{info && info.product_brand}</Text>
+        <Text name="name">{info && info.product_name}</Text>
       </TextLine>
     </Wrapper>
   );
@@ -34,7 +31,6 @@ const ImgWrapper = styled.div`
   height: 80px;
   border-radius: 10px;
   overflow: hidden;
-  background-color: ${({ theme }) => theme.lightgray};
 `;
 
 const Img = styled.img`

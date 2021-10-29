@@ -43,13 +43,17 @@ export default function Contents({
 
   const [addItem, setAddItem] = useState(false);
 
-  const getData = () => {
-    fetch(`${BASE_URL}/products`)
+  useEffect(() => {
+    fetch(`${BASE_URL}/products`, {
+      method: 'GET',
+    })
       .then(res => res.json())
       .then(data => {
-        setProductItem(data.products_list);
+        setProductItem(prev => {
+          return [...prev, ...data.products_list];
+        });
       });
-  };
+  });
 
   const infiniteScroll = useCallback(() => {
     const scrollY = window.scrollY;
@@ -61,10 +65,6 @@ export default function Contents({
     } else {
       setAddItem(addItem => false);
     }
-  }, []);
-
-  useEffect(() => {
-    getData();
   }, []);
 
   useEffect(() => {
@@ -110,8 +110,8 @@ export default function Contents({
             }}
           >
             <p>인기순</p>
-            <i className="fas fa-long-arrow-alt-up"></i>
-            <i className="fas fa-long-arrow-alt-down"></i>
+            <i className="fas fa-long-arrow-alt-up" />
+            <i className="fas fa-long-arrow-alt-down" />
           </OptionBtn>
         </FilterOption>
         <Modal isClickModal={toggle}>
