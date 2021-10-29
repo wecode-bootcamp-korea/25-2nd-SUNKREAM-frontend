@@ -1,12 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router';
 
-const Item = ({ info }) => {
-  const { product_brand, product_name, size, product_image_url, order_status } =
-    info;
+const Item = ({ history, info }) => {
+  const {
+    product_id,
+    product_brand,
+    product_name,
+    size,
+    product_image_url,
+    order_status,
+  } = info;
 
   return (
-    <ItemBox>
+    <ItemBox
+      onClick={() => {
+        history.push(`/product-detail/${product_id}`);
+        window.scrollTo(0, 0);
+      }}
+    >
       <Wrapper>
         <ImgWrapper>
           <Img src={product_image_url} />
@@ -22,7 +34,7 @@ const Item = ({ info }) => {
   );
 };
 
-export default Item;
+export default withRouter(Item);
 
 const ItemBox = styled.div`
   display: flex;

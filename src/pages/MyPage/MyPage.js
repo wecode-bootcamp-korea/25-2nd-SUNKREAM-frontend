@@ -5,6 +5,7 @@ import Section from './component/Section';
 import Invoice from './component/Invoice';
 import Favorite from './component/Favorite';
 import ItemLists from './component/ItemLists';
+import { BASE_URL } from '../../config';
 
 const MyPage = props => {
   const [tradeList, setTradeList] = useState({
@@ -19,11 +20,10 @@ const MyPage = props => {
   const { userInfo, count, buyList, sellList } = tradeList;
 
   useEffect(() => {
-    fetch('http://10.58.5.224:8000/orders', {
+    fetch(`${BASE_URL}/orders`, {
       method: 'GET',
       headers: {
-        Authorization:
-          'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.eGq9yuBZw6f3J4PYeatP6yI9eqFNJBAMD61hwKq0K0M',
+        Authorization: localStorage.token,
       },
     })
       .then(res => res.json())
@@ -64,8 +64,11 @@ const MyPage = props => {
   }, []);
 
   useEffect(() => {
-    fetch('http://10.58.4.130:8000/products/wishlist', {
+    fetch(`${BASE_URL}/products/wishlist`, {
       method: 'GET',
+      headers: {
+        Authorization: localStorage.token,
+      },
     })
       .then(res => res.json())
       .then(data => {
@@ -108,7 +111,9 @@ const NavTitle = styled.h1`
   font-weight: bold;
 `;
 
-const Content = styled.main``;
+const Content = styled.main`
+  min-width: 600px;
+`;
 
 const makeContents = (buyCount, sellCount, buyList, sellList, wishList) => {
   const arr = [

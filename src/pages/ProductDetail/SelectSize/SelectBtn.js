@@ -7,7 +7,7 @@ const SelectBtn = ({ currentPrice }) => {
       <Text title>일반</Text>
       <Wrapper>
         <Text price>
-          {currentPrice && currentPrice.toLocaleString('ko-KR')}
+          {currentPrice ? currentPrice.toLocaleString('ko-KR') : '입찰'}
         </Text>
         <Text>일반 배송</Text>
       </Wrapper>

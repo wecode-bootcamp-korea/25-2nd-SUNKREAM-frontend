@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import Info from './Components/Info/Info';
 import Silde from './Components/Slide/Silde';
 import Modal from './Components/Info/sub/Modal';
-import { URL } from '../../config';
+import { BASE_URL } from '../../config';
 
-const ProductDetail = ({ match }) => {
+const ProductDetail = ({ history, match }) => {
   const { params } = match;
   const { path } = params;
 
@@ -54,35 +54,45 @@ const ProductDetail = ({ match }) => {
     setCurrentSize(id);
   };
 
+  // Data Fetching
+
   const handleWishBtn = () => {
+    if (!localStorage.token) {
+      return history.push('/login');
+    }
+
     setWishData({
       ...wishData,
       check_my_wish: !wishData.check_my_wish,
     });
 
-    fetch(`${URL.wishList}/wishflag/${path}`, {
+    fetch(`${BASE_URL}/products/wishlist?product_id=${path}`, {
       method: 'POST',
-      body: JSON.stringify({}),
+      headers: {
+        Authorization: localStorage.token,
+      },
     })
       .then(res => res.json())
       .then(data => {
-        setProductInfo(data);
+        setWishData(prev => {
+          return { ...prev, ...data };
+        });
       });
   };
 
   useEffect(() => {
-    fetch(`${URL.product}/${path}`, {
+    fetch(`${BASE_URL}/products/${path}`, {
       method: 'GET',
     })
       .then(res => res.json())
       .then(data => {
-        setProductInfo(data.product_detail[0]);
+        setProductInfo(data?.product_detail?.[0]);
       });
   }, [path]);
 
   useEffect(() => {
     fetch(
-      `${URL.chart}/${path}?size=${
+      `${BASE_URL}/orders/price/${path}?size=${
         currentSize === '모든 사이즈' ? '' : currentSize
       }&period=${term}`,
       {
@@ -96,7 +106,7 @@ const ProductDetail = ({ match }) => {
           order_list,
           buy_bidding_list,
           sell_bidding_list,
-        } = data;
+        } = data.data;
         setMarketData(prevState => {
           return {
             ...prevState,
@@ -118,7 +128,7 @@ const ProductDetail = ({ match }) => {
   }, [currentSize]);
 
   useEffect(() => {
-    fetch(`${URL.chart}/${path}`, {
+    fetch(`${BASE_URL}/orders/price/${path}`, {
       method: 'GET',
     })
       .then(res => res.json())
@@ -128,7 +138,12 @@ const ProductDetail = ({ match }) => {
   }, [path]);
 
   useEffect(() => {
-    fetch(`${URL.wishList}/wishflag?product_id=${path}`)
+    fetch(`${BASE_URL}/products/wishflag?product_id=${path}`, {
+      method: 'GET',
+      headers: {
+        Authorization: localStorage.token,
+      },
+    })
       .then(res => res.json())
       .then(data => {
         const { results } = data;
@@ -144,13 +159,13 @@ const ProductDetail = ({ match }) => {
         <ProductDetailBox>
           <Top>
             <SlideBox>
-              <Silde list={productInfo.image_list} />
+              <Silde list={productInfo?.image_list} />
             </SlideBox>
             <DetailBox>
               <Info
                 productInfo={productInfo}
                 sizePrice={sizePrice}
-                sizeList={EXAMPLE}
+                sizeList={SIZE_LIST}
                 wishData={wishData}
                 handleWishBtn={handleWishBtn}
                 handleModal={handleModal}
@@ -168,7 +183,7 @@ const ProductDetail = ({ match }) => {
         <Modal
           currentSize={currentSize}
           handleButton={handleButton}
-          sizeList={EXAMPLE}
+          sizeList={SIZE_LIST}
         >
           사이즈
         </Modal>
@@ -206,7 +221,7 @@ const DetailBox = styled.div`
   max-width: 600px;
 `;
 
-const EXAMPLE = [
+const SIZE_LIST = [
   { id: 1, size: '모든 사이즈' },
   { id: 2, size: '230' },
   { id: 3, size: '240' },
@@ -215,4 +230,5 @@ const EXAMPLE = [
   { id: 6, size: '270' },
   { id: 7, size: '280' },
   { id: 8, size: '290' },
+  { id: 9, size: '300' },
 ];

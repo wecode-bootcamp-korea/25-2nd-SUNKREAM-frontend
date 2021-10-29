@@ -1,35 +1,65 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import ProductInfo from './ProductInfo';
 import SizeList from './SizeList';
 import SelectBtn from './SelectBtn';
+import { BASE_URL } from '../../../config';
 
-const SelectSize = props => {
+const SelectSize = ({ match }) => {
   const [currentData, setCurrentData] = useState({
     currentSize: '',
     currentPrice: '0',
+    sizeId: '',
   });
 
-  const { currentSize, currentPrice } = currentData;
+  const [sizeData, setSizeData] = useState({});
 
-  const handleButton = (size, price) => {
+  const { currentSize, currentPrice, sizeId } = currentData;
+  const { product_info, size_price_list } = sizeData;
+
+  const handleButton = (size, price, id) => {
     setCurrentData(prev => {
-      return { ...prev, currentSize: size, currentPrice: price };
+      return { ...prev, currentSize: size, currentPrice: price, sizeId: id };
     });
   };
+
+  useEffect(() => {
+    fetch(
+      `${BASE_URL}/orders/size-price/${match.params.productId}/${
+        match.params.id === 'buy' ? '2' : '1'
+      }`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: localStorage.token,
+        },
+      }
+    )
+      .then(res => res.json())
+      .then(data => {
+        setSizeData(prevState => {
+          return { ...prevState, ...data };
+        });
+      });
+  }, [match.params.productId, match.params.id]);
 
   return (
     <Wrapper>
       <SelectBox>
-        <ProductInfo info={PRODUCT} />
+        <ProductInfo info={product_info} />
         <SizeList
-          list={EXAMPLE}
+          list={size_price_list}
           currentSize={currentSize}
           handleButton={handleButton}
         />
         {currentSize && (
           <ButtonBox>
-            <SelectBtn currentPrice={currentPrice} />
+            <Link
+              to={`/${match.params.id}/checkout/${match.params.productId}/${sizeId}`}
+            >
+              <SelectBtn currentPrice={currentPrice} />
+            </Link>
           </ButtonBox>
         )}
       </SelectBox>
@@ -58,19 +88,3 @@ const ButtonBox = styled.div`
   padding-top: 20px;
   border-top: 1px solid ${({ theme }) => theme.lightgray};
 `;
-
-const EXAMPLE = [
-  { size: '220', price: 289000 },
-  { size: '230', price: 287000 },
-  { size: '240', price: 267000 },
-  { size: '250', price: 567000 },
-  { size: '260', price: 867000 },
-  { size: '270', price: 345000 },
-  { size: '280', price: 234000 },
-];
-
-const PRODUCT = {
-  model: 'New Balance',
-  name: 'New Balance 992 Made in USA Navy',
-  kr_name: '뉴발란스 992 메이드 인 USA 네이비',
-};

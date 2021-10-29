@@ -31,8 +31,16 @@ class Routes extends React.Component {
               component={ProductDetail}
             />
             <Route exact path="/product-list" component={ProductList} />
-            <Route exact path="/:id/select-size" component={SelectSize} />
-            <Route exact path="/:id/checkout/:size" component={Checkout} />
+            <Route
+              exact
+              path="/:id/select-size/:productId"
+              component={SelectSize}
+            />
+            <Route
+              exact
+              path="/:id/checkout/:productId/:size"
+              component={Checkout}
+            />
             <Route
               exapt
               path="/oauth/callback/kakao"

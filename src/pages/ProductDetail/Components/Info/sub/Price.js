@@ -6,9 +6,8 @@ const Price = ({ price }) => {
     <Box>
       <Text title>최근 거래가</Text>
       <Wrapper>
-        <Text>{price?.toLocaleString('ko-KR')}</Text>
+        <Text>{price ? price?.toLocaleString('ko-KR') : '- '}</Text>
         <Text>원</Text>
-        <Rate>4,000원 (+2.5%)</Rate>
       </Wrapper>
     </Box>
   );
