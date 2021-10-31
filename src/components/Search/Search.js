@@ -127,7 +127,7 @@ const SearchBoxWrapper = styled.div`
   width: 100%;
   min-height: 220px;
   background-color: white;
-  z-index: 999;
+  z-index: 10000;
   padding-top: 30px;
   box-shadow: 5px 0 10px rgba(0, 0, 0, 0.3);
 `;
