@@ -10,6 +10,11 @@ const Search = ({ cancelToggle, history }) => {
   const [items, setItems] = useState([]);
   const [recentSearch, setRecentSearch] = useState([]);
 
+  const goToProductList = value => {
+    const keyword = value;
+    history.push(`/product-list?search=${keyword}`);
+  };
+
   useEffect(() => {
     const recentSearch = localStorage.getItem('recentSearchKeywords');
     if (recentSearch) {
@@ -20,6 +25,7 @@ const Search = ({ cancelToggle, history }) => {
   const handleChange = e => {
     updateSearchResult(e.target.value);
   };
+
   const pushRecentSearch = e => {
     const { value } = e.target;
     const { key } = e;
@@ -42,6 +48,8 @@ const Search = ({ cancelToggle, history }) => {
         setRecentSearch(replacedSearch);
         localStorage.setItem('recentSearchKeywords', replacedSearch.join(','));
       }
+      goToProductList(value);
+      cancelToggle();
       e.target.value = '';
     }
   };
@@ -119,7 +127,7 @@ const SearchBoxWrapper = styled.div`
   width: 100%;
   min-height: 220px;
   background-color: white;
-  z-index: 100000;
+  z-index: 999;
   padding-top: 30px;
   box-shadow: 5px 0 10px rgba(0, 0, 0, 0.3);
 `;
@@ -130,7 +138,7 @@ const LightBox = styled.div`
   height: 100%;
   background-color: rgba(34, 34, 34, 0.5);
   overflow: hidden;
-  z-index: 2;
+  z-index: 11;
 `;
 
 const SearchBox = styled.div`
