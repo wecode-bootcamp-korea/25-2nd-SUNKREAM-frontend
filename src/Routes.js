@@ -33,6 +33,12 @@ class Routes extends React.Component {
             <Route exact path="/product-list" component={ProductList} />
             <Route
               exact
+              path="/product-list/search=/:keyword"
+              component={ProductList}
+            />
+
+            <Route
+              exact
               path="/:id/select-size/:productId"
               component={SelectSize}
             />

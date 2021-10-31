@@ -15,6 +15,7 @@ export default function MainContents({
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
+    console.log(searchParams);
 
     fetch(`${BASE_URL}/products?search=${searchParams.get('search')}`)
       .then(res => res.json())
