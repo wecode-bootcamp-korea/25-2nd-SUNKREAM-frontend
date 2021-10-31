@@ -27,7 +27,7 @@
 - 🔗 [영상 링크] : 추후 재업데이트 예정
 
 ## ⚙ 적용 기술
-- **Front-End** : HTML5, CSS3, React, SASS, JSX
+- **Front-End** : HTML5, Styled Component, React, JSX
 - **Back-End** : Python, Django, MySQL, jwt, bcypt, AWS RDS, AWS EC2
 - **Common** : Git, Github, Slack, Trello, Postman or Insomnia
 
@@ -59,15 +59,16 @@
 ### FRONTEND
 #### 김현진
 > 메인 페이지
--
-- > 소셜 로그인
--
-- > 입찰 결제
--
-- > 상세 페이지
--
-- > 상품 리스트
-- 
+- 메인 레이아웃구현
+- React-slick 라이브러리 이용 및 CSS 커스터마이즈 슬라이더 구현
+- 메인 상세페이간 이동 구현
+- Nav/Footer/ 검색창 레이아웃 구현
+- 검색창 모달 구현
+- localStoragies 저장을 통한 최근 검색어 구현
+- 검색어 중복제거 기능 구현
+- 검색창 keyword backend와 동적통신
+- 검색어와 상세페이지 이동 구현
+
 #### 박산성 
 
 #### 이선호
