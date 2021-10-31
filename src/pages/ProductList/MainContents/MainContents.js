@@ -12,6 +12,7 @@ export default function MainContents({
 }) {
   const [productItem, setProductItem] = useState([]);
   const location = useLocation();
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
 

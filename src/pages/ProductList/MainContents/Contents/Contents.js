@@ -53,7 +53,7 @@ export default function Contents({
           return [...prev, ...data.products_list];
         });
       });
-  });
+  }, []);
 
   const infiniteScroll = useCallback(() => {
     const scrollY = window.scrollY;
